@@ -1,0 +1,7 @@
+{
+  "Tab Width": "100",
+  "semi": false,
+  "singleQuote": true,
+  "endOfLine": "auto",
+  "arrowParens": "avoid"
+}

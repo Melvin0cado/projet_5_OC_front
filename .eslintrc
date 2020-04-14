@@ -1,0 +1,23 @@
+{
+    "env": {
+        "browser": true,
+        "es6": true
+    },
+    "extends": [
+        "plugin:import/errors",
+        "plugin:react/recommended",
+        "prettier"
+    ],
+    "plugins": ["prettier", "react"],
+    "rules": {
+        "prettier/prettier": "error",
+        "no-console":"warn"
+    },
+    "parserOptions": {
+        "ecmaVersion": 2018,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true
+        }
+    }
+}
