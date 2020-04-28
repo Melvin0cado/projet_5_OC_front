@@ -1,0 +1,13 @@
+.btn {
+  background-color: $blue;
+
+  &:hover{
+    background-color: $blue;
+    
+  }
+
+   &:focus {
+     border: none;
+     background-color: $blue;
+   }
+}
