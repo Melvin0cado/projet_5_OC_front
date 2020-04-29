@@ -2,12 +2,12 @@ import PropsType from 'prop-types'
 import React from 'react'
 
 const Button = props => {
-  const { type, text, disabled, onClick } = props
+  const { className, type, text, disabled, onClick } = props
 
   return (
     <button
       type={type}
-      className="btn waves-effect waves-light"
+      className={`btn waves-effect waves-light${className}`}
       disabled={disabled}
       onClick={onClick}
     >
@@ -17,6 +17,7 @@ const Button = props => {
 }
 
 Button.propTypes = {
+  className: PropsType.string,
   type: PropsType.string.isRequired,
   text: PropsType.string.isRequired,
   disabled: PropsType.bool,
@@ -25,6 +26,7 @@ Button.propTypes = {
 
 Button.defaultProps = {
   disabled: null,
+  className: '',
 }
 
 export default Button

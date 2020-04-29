@@ -1,10 +1,10 @@
 import Axios from 'axios'
 import M from 'materialize-css'
 import React, { Component } from 'react'
-import { api } from '../config/parameters'
-import { catchErr } from '../globalAction/CatchErr'
-import { SuccesSwal } from '../globalAction/swal'
-import Button from './global/Button'
+import { api } from '../../config/parameters'
+import { catchErr } from '../../globalAction/CatchErr'
+import { SuccesSwal } from '../../globalAction/swal'
+import Button from '../global/Button'
 
 class RegistrationForm extends Component {
   constructor(props) {
@@ -47,17 +47,17 @@ class RegistrationForm extends Component {
   handleClick() {
     const { name, email, password } = this.state
 
-    const result = {
+    const data = {
       username: name,
       email,
       password,
-      roles: ['user'],
+      roles: ['ROLE_USER'],
     }
 
-    Axios.post(`${api}/api/user/create`, result, {
+    Axios.post(`${api}/api/user/create`, data, {
       headers: { Authorization: {} },
     })
-      .then(res => {
+      .then(() => {
         SuccesSwal('Inscription réussi', 'refresh')
       })
       .catch(err => catchErr(err.response))

@@ -5,6 +5,7 @@
     },
     "extends": [
         "plugin:import/errors",
+        "eslint:recommended",
         "plugin:react/recommended",
         "prettier"
     ],

@@ -3,7 +3,6 @@ import history from '../history'
 
 export const ErrorSwal = message => {
   Swal.fire({
-    type: 'error',
     title: 'Erreurs',
     icon: 'error',
     showCancelButton: false,
@@ -15,7 +14,6 @@ export const ErrorSwal = message => {
 
 export const SuccesSwal = (message, redirect = 'refresh') => {
   Swal.fire({
-    type: 'success',
     title: 'Succès',
     icon: 'success',
     showCancelButton: false,
