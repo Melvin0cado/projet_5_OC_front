@@ -1,7 +1,10 @@
 import Axios from 'axios'
+import JwtDecode from 'jwt-decode'
 import React, { Component } from 'react'
+import { ACTION_TYPE_AUTH } from '../../actions/types'
 import { api, configApi } from '../../config/parameters'
 import { catchErr } from '../../globalAction/CatchErr'
+import { store } from '../../store'
 import Button from '../global/Button'
 
 class LoginForm extends Component {
@@ -39,7 +42,19 @@ class LoginForm extends Component {
     }
 
     Axios.post(`${api}/api/user/login`, data, configApi)
-      .then(res => console.log(res.data))
+      .then(res => {
+        const { token } = res.data
+        const tokenData = JwtDecode(token)
+
+        localStorage.setItem('token', token)
+        store.dispatch({
+          type: ACTION_TYPE_AUTH.LOGIN,
+          token,
+          username: tokenData.username,
+          email: tokenData.email,
+          role: tokenData.roles,
+        })
+      })
       .catch(err => catchErr(err.response))
   }
 

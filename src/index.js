@@ -1,11 +1,29 @@
+import JwtDecode from 'jwt-decode'
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { Provider } from 'react-redux'
+import { ACTION_TYPE_AUTH } from './actions/types'
 import Router from './Router'
 import * as serviceWorker from './serviceWorker'
+import { store } from './store'
+
+const token = localStorage.getItem('token')
+if (token) {
+  const user = JwtDecode(token)
+  store.dispatch({
+    type: ACTION_TYPE_AUTH.LOGIN,
+    token,
+    role: user.roles,
+    username: user.username,
+    email: user.email,
+  })
+}
 
 ReactDOM.render(
   <React.StrictMode>
-    <Router />
+    <Provider store={store}>
+      <Router />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 )
