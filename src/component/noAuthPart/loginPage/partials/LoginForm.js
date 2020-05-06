@@ -17,15 +17,26 @@ class LoginForm extends Component {
     }
     this.inputRequiredVerification = this.inputRequiredVerification.bind(this)
     this.handleChange = this.handleChange.bind(this)
-    this.handleClick = this.handleClick.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.handlePress = this.handlePress.bind(this)
   }
 
   inputRequiredVerification() {
     const { email, password } = this.state
 
-    this.setState({
-      disabledBtn: email === '' || password === '',
-    })
+    const disabledBtn = email === '' || password === ''
+    this.setState({ disabledBtn })
+    return disabledBtn
+  }
+
+  handlePress(e) {
+    const { charCode } = e
+
+    const isNotValidate = this.inputRequiredVerification()
+
+    if (charCode === 13 && !isNotValidate) {
+      this.handleSubmit()
+    }
   }
 
   handleChange(e) {
@@ -33,7 +44,7 @@ class LoginForm extends Component {
     this.setState({ [name]: value }, () => this.inputRequiredVerification())
   }
 
-  handleClick() {
+  handleSubmit() {
     const { email, password } = this.state
 
     const data = {
@@ -64,7 +75,12 @@ class LoginForm extends Component {
       <div className="row bg-dark-blue">
         <form className="col s6 right valign-wrapper">
           <div className="input-field col s5">
-            <input name="email" type="email" onChange={this.handleChange} />
+            <input
+              name="email"
+              type="email"
+              onChange={this.handleChange}
+              onKeyPress={this.handlePress}
+            />
             <label htmlFor="email">Email</label>
           </div>
           <div className="input-field col s5">
@@ -72,6 +88,7 @@ class LoginForm extends Component {
               name="password"
               type="password"
               onChange={this.handleChange}
+              onKeyPress={this.handlePress}
             />
             <label htmlFor="password">Mot de passe</label>
           </div>
@@ -80,7 +97,7 @@ class LoginForm extends Component {
               type="button"
               text="Valider"
               disabled={disabledBtn}
-              onClick={this.handleClick}
+              onClick={this.handleSubmit}
             />
           </div>
         </form>
