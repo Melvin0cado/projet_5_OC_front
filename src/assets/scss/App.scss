@@ -1,7 +1,9 @@
 @import './vars.scss';
 @import './partials/button';
+@import './partials/userInterface';
 
 body {
+  min-height: 100vh;
   background-color: $light-blue;
 }
 

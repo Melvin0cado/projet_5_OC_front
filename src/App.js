@@ -3,23 +3,15 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import './assets/scss/App.scss'
-import LoginForm from './component/loginPage/LoginForm'
-import RegistrationForm from './component/loginPage/RegistrationForm'
+import UserInterface from './component/AuthPart/UserInterface'
 
 class App extends Component {
   render() {
-    const { authenticated } = this.props
-    console.log(this.props)
-    if (!authenticated) {
-      return (
-        <>
-          <LoginForm />
-          <RegistrationForm />
-        </>
-      )
-    } else {
-      return `coucou tu es authentifié`
-    }
+    const { authenticated, children } = this.props
+
+    return (
+      <UserInterface authenticated={authenticated}>{children}</UserInterface>
+    )
   }
 }
 
@@ -31,6 +23,7 @@ const mapStateToProps = state => {
 
 App.propTypes = {
   authenticated: PropTypes.bool,
+  children: PropTypes.object.isRequired,
 }
 
 export default connect(mapStateToProps)(App)

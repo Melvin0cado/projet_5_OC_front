@@ -1,11 +1,11 @@
 import Axios from 'axios'
 import JwtDecode from 'jwt-decode'
 import React, { Component } from 'react'
-import { ACTION_TYPE_AUTH } from '../../actions/types'
-import { api, configApi } from '../../config/parameters'
-import { catchErr } from '../../globalAction/CatchErr'
-import { store } from '../../store'
-import Button from '../global/Button'
+import { ACTION_TYPE_AUTH } from '../../../../actions/types'
+import { api, configApi } from '../../../../config/parameters'
+import { catchErr } from '../../../../globalAction/CatchErr'
+import { store } from '../../../../store'
+import Button from '../../../global/Button'
 
 class LoginForm extends Component {
   constructor(props) {
