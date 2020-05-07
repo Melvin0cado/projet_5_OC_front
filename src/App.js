@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import './assets/scss/App.scss'
-import UserInterface from './component/AuthPart/UserInterface'
+import UserInterface from './component/AuthPart/UserInterface/UserInterface'
 
 class App extends Component {
   render() {

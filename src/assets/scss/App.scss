@@ -10,3 +10,8 @@ body {
 .bg-dark-blue{
   background: $dark-blue;
 }
+
+:focus {
+  outline: none;
+}
+

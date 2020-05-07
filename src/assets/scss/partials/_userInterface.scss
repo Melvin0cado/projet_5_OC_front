@@ -11,6 +11,33 @@
   color: white;
 }
 
+.logo{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 5rem;
+  background-color: #0d233a;
+}
+
+.link-sidebar{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: white;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  font-weight: 700;
+
+  &:hover{
+    color: yellow;
+  }
+
+  &.active{
+    color:#0d233a;
+  }
+}
+
 .containerRight {
   width: 85%;
 }
@@ -21,3 +48,4 @@
   background-color: $dark-blue2;
   color: white;
 }
+

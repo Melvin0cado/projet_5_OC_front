@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
+import MainHeader from './partials/MainHeader'
+import Sidebar from './partials/Sidebar'
 
 const UserInterface = props => {
   const { authenticated, children } = props
@@ -8,9 +10,9 @@ const UserInterface = props => {
     <>
       {authenticated === true ? (
         <div className="allContainer">
-          <div className="sidebar">sidebar</div>
+          <Sidebar />
           <div className="containerRight">
-            <div className="header">header</div>
+            <MainHeader />
             <div>{children}</div>
           </div>
         </div>
