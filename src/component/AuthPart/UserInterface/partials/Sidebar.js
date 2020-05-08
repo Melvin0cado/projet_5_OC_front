@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { Link, withRouter } from 'react-router-dom'
-import { sidebarConfig } from '../../../../config/sidebarConfig'
+import { sidebarConfig } from '../../../../config/userInterfaceConfig'
 
 class Sidebar extends Component {
   constructor(props) {

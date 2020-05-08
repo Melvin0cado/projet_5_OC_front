@@ -11,7 +11,7 @@
   color: white;
 }
 
-.logo{
+.logo {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -19,7 +19,7 @@
   background-color: #0d233a;
 }
 
-.link-sidebar{
+.link-sidebar {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -29,12 +29,12 @@
   padding-bottom: 15px;
   font-weight: 700;
 
-  &:hover{
+  &:hover {
     color: yellow;
   }
 
-  &.active{
-    color:#0d233a;
+  &.active {
+    color: $dark-blue3;
   }
 }
 
@@ -43,9 +43,30 @@
 }
 
 .header {
+  display: flex;
+  align-items: center;
   height: 5rem;
   width: 100%;
   background-color: $dark-blue2;
   color: white;
 }
 
+.disconnectBtn {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  margin-right: 10px;
+  box-sizing: border-box;
+  height: 80%;
+  background-color: $light-blue;
+  border-radius: 100%;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $light-blue;
+  }
+
+  & img{
+    height: 50%;
+  }
+}

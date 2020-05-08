@@ -19,6 +19,15 @@ export default (state = INITSTATE, action) => {
         email: action.email,
         token: action.token,
       }
+    case ACTION_TYPE_AUTH.LOGOUT:
+      return {
+        ...state,
+        authenticated: false,
+        role: [],
+        username: '',
+        email: '',
+        token: '',
+      }
     default:
       break
   }

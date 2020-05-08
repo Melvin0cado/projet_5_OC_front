@@ -7,7 +7,7 @@ const Button = props => {
   return (
     <button
       type={type}
-      className={`btn waves-effect waves-light${className}`}
+      className={`btn waves-effect waves-light ${className}`}
       disabled={disabled}
       onClick={onClick}
     >
