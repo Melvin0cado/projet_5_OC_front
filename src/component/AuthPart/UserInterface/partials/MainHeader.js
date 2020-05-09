@@ -1,12 +1,21 @@
 import React, { Component } from 'react'
 import { ACTION_TYPE_AUTH } from '../../../../actions/types'
-import { icons } from '../../../../assets/images/icons'
 import { store } from '../../../../store'
 
 class MainHeader extends Component {
   constructor(props) {
     super(props)
     this.handleDisconnect = this.handleDisconnect.bind(this)
+  }
+
+  componentDidMount() {
+    const powerOff = document.getElementById('power-off')
+
+    powerOff.style.width = `${powerOff.offsetHeight}px`
+
+    const disconnectBtn = document.querySelector('.disconnectBtn')
+
+    disconnectBtn.style.width = `${disconnectBtn.offsetHeight}px`
   }
 
   handleDisconnect() {
@@ -23,7 +32,10 @@ class MainHeader extends Component {
           className="disconnectBtn btn waves-effect"
           onClick={this.handleDisconnect}
         >
-          <img src={icons.powerOffDarkBlue3} alt="disconnect button" />
+          <i id="power-off" className="power-off material-icons">
+            power_settings_new
+          </i>
+          {/* <img src={icons.powerOffDarkBlue3} alt="disconnect button" /> */}
         </div>
       </div>
     )

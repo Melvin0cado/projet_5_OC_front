@@ -1,13 +1,17 @@
 .btn {
   background-color: $blue;
 
-  &:hover{
+  &:hover {
     background-color: $blue;
-    
   }
 
-   &:focus {
-     border: none;
-     background-color: $blue;
-   }
+  &:focus {
+    border: none;
+    background-color: $blue;
+  }
+}
+
+.waves-effect.waves-blue .waves-ripple {
+  background-color: $blue;
+  opacity: 0.15;
 }

@@ -1,0 +1,11 @@
+.placeholder-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: dashed 1px $dark-blue2;
+  cursor: pointer;
+
+  & i {
+    color: $dark-blue2;
+  }
+}

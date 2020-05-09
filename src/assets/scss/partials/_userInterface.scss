@@ -40,6 +40,7 @@
 
 .containerRight {
   width: 85%;
+  
 }
 
 .header {
@@ -54,10 +55,12 @@
 .disconnectBtn {
   display: flex;
   align-items: center;
+  justify-content: center;
   margin-left: auto;
   margin-right: 10px;
   box-sizing: border-box;
   height: 80%;
+  padding: 0px;
   background-color: $light-blue;
   border-radius: 100%;
   cursor: pointer;
@@ -66,7 +69,10 @@
     background-color: $light-blue;
   }
 
-  & img{
-    height: 50%;
-  }
+}
+
+.power-off {
+  font-weight: 900;
+  color: $dark-blue3;
+  font-size: 35px !important;
 }

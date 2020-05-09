@@ -13,7 +13,7 @@ const UserInterface = props => {
           <Sidebar />
           <div className="containerRight">
             <MainHeader />
-            <div>{children}</div>
+            <div className="main-container">{children}</div>
           </div>
         </div>
       ) : (

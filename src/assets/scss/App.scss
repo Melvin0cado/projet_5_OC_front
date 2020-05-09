@@ -1,5 +1,7 @@
 @import './vars.scss';
 @import './partials/button';
+@import './partials/card';
+@import './partials/text';
 @import './partials/userInterface';
 
 body {
@@ -7,7 +9,7 @@ body {
   background-color: $light-blue;
 }
 
-.bg-dark-blue{
+.bg-dark-blue {
   background: $dark-blue;
 }
 
@@ -15,3 +17,22 @@ body {
   outline: none;
 }
 
+.main-container {
+  margin: 2rem;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+input::-webkit-inner-spin-button,
+input::-webkit-outer-spin-button { 
+	-webkit-appearance: none;
+	margin:0;
+}
+
+input::-o-inner-spin-button,
+input::-o-outer-spin-button { 
+	-o-appearance: none;
+	margin:0
+}
