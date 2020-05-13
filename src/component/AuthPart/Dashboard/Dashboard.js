@@ -9,14 +9,11 @@ class Dashboard extends Component {
   constructor(props) {
     super(props)
     this.state = {}
-    this.handleModal = this.handleModal.bind(this)
   }
 
   componentDidMount() {
-    M.AutoInit()
+    M.Modal.init(document.getElementById('create-card'))
   }
-
-  handleModal() {}
 
   render() {
     const { username } = this.props

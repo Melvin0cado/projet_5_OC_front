@@ -52,15 +52,18 @@ class LoginForm extends Component {
       password,
     }
 
-    Axios.post(`${api}/api/user/login`, data, configApi)
+    Axios.post(`${api}/api/login_check`, data, configApi())
       .then(res => {
-        const { token } = res.data
+        let { token } = res.data
         const tokenData = JwtDecode(token)
+
+        token = `Bearer ${token}`
 
         localStorage.setItem('token', token)
         store.dispatch({
           type: ACTION_TYPE_AUTH.LOGIN,
           token,
+          id: tokenData.id,
           username: tokenData.username,
           email: tokenData.email,
           role: tokenData.roles,

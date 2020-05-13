@@ -12,7 +12,8 @@ if (token) {
   const user = JwtDecode(token)
   store.dispatch({
     type: ACTION_TYPE_AUTH.LOGIN,
-    token,
+    token: token,
+    id: user.id,
     role: user.roles,
     username: user.username,
     email: user.email,

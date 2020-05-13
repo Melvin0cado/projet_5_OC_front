@@ -1,8 +1,11 @@
 @import './vars.scss';
 @import './partials/button';
 @import './partials/card';
+@import './partials/datePicker';
+@import './partials/modal';
 @import './partials/text';
 @import './partials/userInterface';
+
 
 body {
   min-height: 100vh;

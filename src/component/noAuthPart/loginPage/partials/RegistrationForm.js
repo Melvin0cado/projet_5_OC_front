@@ -1,7 +1,7 @@
 import Axios from 'axios'
 import M from 'materialize-css'
 import React, { Component } from 'react'
-import { api } from '../../../../config/parameters'
+import { api, configApi } from '../../../../config/parameters'
 import { catchErr } from '../../../../globalAction/CatchErr'
 import { SuccesSwal } from '../../../../globalAction/swal'
 import Button from '../../../global/Button'
@@ -54,9 +54,7 @@ class RegistrationForm extends Component {
       roles: ['ROLE_USER'],
     }
 
-    Axios.post(`${api}/api/user/create`, data, {
-      headers: { Authorization: {} },
-    })
+    Axios.post(`${api}/api/user/create`, data, configApi())
       .then(() => {
         SuccesSwal('Inscription réussi', 'refresh')
       })

@@ -15,6 +15,7 @@ export default (state = INITSTATE, action) => {
         ...state,
         authenticated: true,
         role: action.role,
+        id: action.id,
         username: action.username,
         email: action.email,
         token: action.token,

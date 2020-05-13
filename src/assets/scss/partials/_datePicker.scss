@@ -1,0 +1,15 @@
+.datepicker-date-display {
+  background-color: $dark-blue;
+}
+
+.datepicker-calendar-container {
+  background-color: $light-blue;
+}
+
+.datepicker-table td.is-selected {
+  background-color: $dark-blue;
+}
+
+.datepicker-cancel, .datepicker-done{
+  display: none;
+}
