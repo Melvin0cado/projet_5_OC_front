@@ -1,27 +1,55 @@
+import Axios from 'axios'
 import M from 'materialize-css'
-import propTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { api, configApi } from '../../../config/parameters'
+import { catchErr } from '../../../globalAction/CatchErr'
+import Card from './partials/Card/Card'
 import ModalCreateCard from './partials/ModalCreateCard'
 import PlaceholderCard from './partials/PlaceholderCard'
 
 class Dashboard extends Component {
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      loading: true,
+    }
+    this.getCardList = this.getCardList.bind(this)
   }
 
   componentDidMount() {
-    M.Modal.init(document.getElementById('create-card'))
+    this.getCardList()
+  }
+
+  getCardList() {
+    const { userId, token } = this.props
+    Axios.get(`${api}/api/budget-card-by-userId/${userId}`, configApi(token))
+      .then(res => {
+        this.setState(
+          { budgetCards: res.data[0].budgetCards, loading: false },
+          () => M.Modal.init(document.getElementById('create-card'))
+        )
+      })
+      .catch(err => catchErr(err.response))
   }
 
   render() {
     const { username } = this.props
+    const { loading, budgetCards } = this.state
+
+    if (loading) {
+      return 'loading'
+    }
+
     return (
       <div className="row">
         <div className="row">{`Bienvenue ${username}`}</div>
         <div>
           <PlaceholderCard handleModal={this.handleModal} />
+          {budgetCards.map(budgetCard => (
+            <Card key={budgetCard.id} budgetCard={budgetCard} />
+          ))}
           <ModalCreateCard />
         </div>
       </div>
@@ -30,12 +58,16 @@ class Dashboard extends Component {
 }
 
 Dashboard.propTypes = {
-  username: propTypes.string.isRequired,
+  username: PropTypes.string.isRequired,
+  userId: PropTypes.number,
+  token: PropTypes.string,
 }
 
 const mapStateToProps = state => {
   return {
     username: state.auth.username,
+    userId: state.auth.id,
+    token: state.auth.token,
   }
 }
 

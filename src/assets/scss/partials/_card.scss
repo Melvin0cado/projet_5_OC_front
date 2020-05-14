@@ -9,3 +9,23 @@
     color: $dark-blue2;
   }
 }
+
+
+.budget-card{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.chart-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.percentage{
+  position: absolute;
+  color: $dark-blue2;
+}
+
