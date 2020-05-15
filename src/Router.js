@@ -3,6 +3,7 @@ import React from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import App from './App'
 import Dashboard from './component/AuthPart/Dashboard/Dashboard'
+import Page404 from './component/global/Page404'
 import LoginPage from './component/noAuthPart/loginPage/LoginPage'
 import NoAuthRoute from './component/noAuthPart/NoAuthRoute'
 import RequireAuth from './component/RequireAuth'
@@ -17,13 +18,7 @@ const Router = () => {
         <Switch>
           <NoAuthRoute exact path="/login" component={LoginPage} />
           <Route exact path="/" component={RequireAuth(Dashboard, ROLE_USER)} />
-          <Route
-            exact
-            path="/test"
-            component={RequireAuth(() => {
-              return 'test'
-            })}
-          />
+          <Route component={Page404} />
         </Switch>
       </App>
     </BrowserRouter>

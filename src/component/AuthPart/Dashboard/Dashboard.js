@@ -5,6 +5,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { api, configApi } from '../../../config/parameters'
 import { catchErr } from '../../../globalAction/CatchErr'
+import Loading from '../../global/Loading'
 import Card from './partials/Card/Card'
 import ModalCreateCard from './partials/ModalCreateCard'
 import PlaceholderCard from './partials/PlaceholderCard'
@@ -39,7 +40,7 @@ class Dashboard extends Component {
     const { loading, budgetCards } = this.state
 
     if (loading) {
-      return 'loading'
+      return <Loading />
     }
 
     return (
