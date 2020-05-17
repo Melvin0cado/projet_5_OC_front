@@ -39,3 +39,12 @@ input::-o-outer-spin-button {
 	-o-appearance: none;
 	margin:0
 }
+
+.flex-between{
+  display: flex;
+  justify-content: space-between;
+}
+
+.full-width{
+  width: 100%;
+}

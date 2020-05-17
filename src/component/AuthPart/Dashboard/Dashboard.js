@@ -7,7 +7,7 @@ import { api, configApi } from '../../../config/parameters'
 import { catchErr } from '../../../globalAction/CatchErr'
 import Loading from '../../global/Loading'
 import Card from './partials/Card/Card'
-import ModalCreateCard from './partials/ModalCreateCard'
+import ModalBudgetCard from './partials/ModalBudgetCard'
 import PlaceholderCard from './partials/PlaceholderCard'
 
 class Dashboard extends Component {
@@ -36,7 +36,7 @@ class Dashboard extends Component {
   }
 
   render() {
-    const { username } = this.props
+    const { username, token } = this.props
     const { loading, budgetCards } = this.state
 
     if (loading) {
@@ -49,9 +49,9 @@ class Dashboard extends Component {
         <div>
           <PlaceholderCard handleModal={this.handleModal} />
           {budgetCards.map(budgetCard => (
-            <Card key={budgetCard.id} budgetCard={budgetCard} />
+            <Card key={budgetCard.id} token={token} budgetCard={budgetCard} />
           ))}
-          <ModalCreateCard />
+          <ModalBudgetCard />
         </div>
       </div>
     )

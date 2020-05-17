@@ -9,7 +9,7 @@ class PlaceholderCard extends Component {
   render() {
     return (
       <>
-        <div className="col s4">
+        <div className="col s3">
           <div
             data-target="create-card"
             className="placeholder-card card waves-effect waves-blue modal-trigger"

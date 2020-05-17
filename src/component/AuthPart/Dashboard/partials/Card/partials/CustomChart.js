@@ -22,9 +22,7 @@ class CustomChart extends Component {
     ctx.style.maxWidth = `${height}px`
 
     const percentage = document.getElementById(`percentage${id}`)
-    console.log(`${height / 2}`)
     percentage.style.textAlign = 'center'
-    console.log(percentage.style.top)
     new Chart(ctx, {
       type: 'doughnut',
       data: {
@@ -40,9 +38,16 @@ class CustomChart extends Component {
         ],
       },
       options: {
+        responsive: true,
         cutoutPercentage: 75,
         legend: {
-          display: false,
+          position: 'bottom',
+          align: 'center',
+          onClick: null,
+          labels: {
+            usePointStyle: true,
+            boxWidth: 10,
+          },
         },
       },
     })
@@ -51,11 +56,14 @@ class CustomChart extends Component {
   render() {
     const { budgetCard } = this.props
     const { id, currentMoney, ceil } = budgetCard
+
+    const percent = Math.ceil((currentMoney / ceil) * 100)
+
     return (
       <>
         <div className="chart-container">
           <div id={`percentage${id}`} className="percentage title-size">
-            {(currentMoney / ceil) * 100}%
+            {percent}%
           </div>
           <canvas id={`budgetCard${id}`}></canvas>
         </div>

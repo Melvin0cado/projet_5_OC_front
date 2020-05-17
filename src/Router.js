@@ -18,7 +18,7 @@ const Router = () => {
         <Switch>
           <NoAuthRoute exact path="/login" component={LoginPage} />
           <Route exact path="/" component={RequireAuth(Dashboard, ROLE_USER)} />
-          <Route component={Page404} />
+          <Route component={RequireAuth(Page404, ROLE_USER)} />
         </Switch>
       </App>
     </BrowserRouter>

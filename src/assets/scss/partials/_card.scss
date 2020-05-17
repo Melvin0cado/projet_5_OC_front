@@ -27,5 +27,34 @@
 .percentage{
   position: absolute;
   color: $dark-blue2;
+  margin-bottom: 2rem;
 }
 
+.trash-can{
+  position: absolute;
+  top: 0px;
+  right: 5px;
+
+  & i{
+    color: #b91b1b;
+    cursor: pointer;
+
+    &:hover{
+      opacity: 0.75;
+    }
+  }
+}
+
+.edit-btn{
+  position: absolute;
+  top: 25px;
+  right: 5px;
+
+  & i{
+    cursor: pointer;
+
+    &:hover{
+      opacity: 0.75;
+    }
+  }
+}
