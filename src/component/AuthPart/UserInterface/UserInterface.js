@@ -4,7 +4,7 @@ import MainHeader from './partials/MainHeader'
 import Sidebar from './partials/Sidebar'
 
 const UserInterface = props => {
-  const { authenticated, children } = props
+  const { authenticated, children, id, token } = props
 
   return (
     <>
@@ -12,7 +12,7 @@ const UserInterface = props => {
         <div className="allContainer">
           <Sidebar />
           <div className="containerRight">
-            <MainHeader />
+            <MainHeader id={id} token={token} />
             <div className="main-container">{children}</div>
           </div>
         </div>
@@ -26,6 +26,8 @@ const UserInterface = props => {
 UserInterface.propTypes = {
   children: PropTypes.node.isRequired,
   authenticated: PropTypes.bool,
+  id: PropTypes.number,
+  token: PropTypes.string,
 }
 
 export default UserInterface

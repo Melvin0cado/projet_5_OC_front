@@ -40,24 +40,37 @@
 
 .containerRight {
   width: 85%;
-  
 }
 
 .header {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   height: 5rem;
   width: 100%;
   background-color: $dark-blue2;
   color: white;
+
+  & .money-container {
+    cursor: pointer;
+
+    & .money-value {
+      display: flex;
+      justify-content: space-between;
+      border-radius: 0.5rem;
+      border: solid 1px white;
+      min-width: 150px;
+      padding: 10px;
+    }
+  }
 }
 
 .disconnectBtn {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: auto;
   margin-right: 10px;
+  margin-left: 20%;
   box-sizing: border-box;
   height: 80%;
   padding: 0px;
@@ -68,7 +81,6 @@
   &:hover {
     background-color: $light-blue;
   }
-
 }
 
 .power-off {

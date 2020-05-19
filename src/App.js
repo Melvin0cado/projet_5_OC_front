@@ -7,10 +7,12 @@ import UserInterface from './component/AuthPart/UserInterface/UserInterface'
 
 class App extends Component {
   render() {
-    const { authenticated, children } = this.props
+    const { authenticated, children, id, token } = this.props
 
     return (
-      <UserInterface authenticated={authenticated}>{children}</UserInterface>
+      <UserInterface token={token} authenticated={authenticated} id={id}>
+        {children}
+      </UserInterface>
     )
   }
 }
@@ -18,12 +20,16 @@ class App extends Component {
 const mapStateToProps = state => {
   return {
     authenticated: state.auth.authenticated,
+    id: state.auth.id,
+    token: state.auth.token,
   }
 }
 
 App.propTypes = {
   authenticated: PropTypes.bool,
   children: PropTypes.object.isRequired,
+  id: PropTypes.number,
+  token: PropTypes.string,
 }
 
 export default connect(mapStateToProps)(App)
