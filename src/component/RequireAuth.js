@@ -48,7 +48,7 @@ export default (ComposedComponent, roleAllowed) => {
       if (isAuth && !authorized) {
         return <Unauthorized />
       }
-      return <LoadingPage />
+      return <LoadingPage size="big" />
     }
   }
 

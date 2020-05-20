@@ -1,11 +1,12 @@
 import Axios from 'axios'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import { ACTION_TYPE_AUTH } from '../../../../actions/types'
-import { api, configApi } from '../../../../config/parameters'
-import { catchErr } from '../../../../globalAction/CatchErr'
-import { store } from '../../../../store'
-import Loading from '../../../global/Loading'
+import { ACTION_TYPE_AUTH } from '../../../../../actions/types'
+import { api, configApi } from '../../../../../config/parameters'
+import { catchErr } from '../../../../../globalAction/CatchErr'
+import { store } from '../../../../../store'
+import Loading from '../../../../global/Loading'
+import ModalToAddMoney from './partials/ModalToAddMoney'
 
 class MainHeader extends Component {
   constructor(props) {
@@ -42,17 +43,21 @@ class MainHeader extends Component {
   }
 
   render() {
+    const { id, token } = this.props
     const { money, loading } = this.state
 
     return (
       <div className="header">
         {loading ? (
-          <Loading />
+          <Loading size="small" />
         ) : (
           <>
-            <div className="money-container ">
+            <div className="money-container">
               <div className="label-money">Mes &eacute;conomies</div>
-              <div className="money-value">
+              <div
+                data-target="add-money"
+                className="money-value modal-trigger"
+              >
                 <span>{money}</span>
                 <i className="material-icons">add_box</i>
               </div>
@@ -68,6 +73,7 @@ class MainHeader extends Component {
             </div>
           </>
         )}
+        <ModalToAddMoney userId={id} token={token} />
       </div>
     )
   }

@@ -101,7 +101,7 @@ class ModalBudgetCard extends Component {
         configApi(token)
       )
         .then(() =>
-          SuccesSwal("L'édition de l'enveloppe est  réussi", 'refresh')
+          SuccesSwal("L'édition de l'enveloppe est réussi", 'refresh')
         )
         .catch(err => catchErr(err.response))
     }

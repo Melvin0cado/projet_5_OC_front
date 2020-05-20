@@ -40,7 +40,7 @@ class Dashboard extends Component {
     const { loading, budgetCards } = this.state
 
     if (loading) {
-      return <Loading />
+      return <Loading size="big" />
     }
 
     return (

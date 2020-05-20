@@ -1,8 +1,10 @@
+import PropTypes from 'prop-types'
 import React from 'react'
 
-const Loading = () => {
+const Loading = props => {
+  const { size } = props
   return (
-    <div className="preloader-wrapper big active">
+    <div className={`preloader-wrapper ${size} active`}>
       <div className="spinner-layer spinner-blue-only">
         <div className="circle-clipper left">
           <div className="circle"></div>
@@ -16,6 +18,10 @@ const Loading = () => {
       </div>
     </div>
   )
+}
+
+Loading.propTypes = {
+  size: PropTypes.string,
 }
 
 export default Loading
