@@ -6,7 +6,7 @@ import React, { Component } from 'react'
 import { api, configApi } from '../../../../../config/parameters'
 import { catchErr } from '../../../../../globalAction/CatchErr'
 import { SuccesSwal } from '../../../../../globalAction/swal'
-import ModalToAddMoney from '../../../UserInterface/partials/MainHeader/partials/ModalToAddMoney'
+import ModalToManageMoney from '../../../UserInterface/partials/MainHeader/partials/ModalToManageMoney'
 import ModalBudgetCard from '../ModalBudgetCard'
 import CustomChart from './partials/CustomChart'
 
@@ -131,14 +131,14 @@ class Card extends Component {
           budgetCard={budgetCard}
           token={token}
         />
-        <ModalToAddMoney
+        <ModalToManageMoney
           token={token}
           type={0}
           id={`add-money${id}`}
           budgetCard={budgetCard}
           amountId={amountId}
         />
-        <ModalToAddMoney
+        <ModalToManageMoney
           token={token}
           type={1}
           id={`remove-money${id}`}

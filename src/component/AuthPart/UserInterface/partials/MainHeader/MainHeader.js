@@ -6,7 +6,7 @@ import { api, configApi } from '../../../../../config/parameters'
 import { catchErr } from '../../../../../globalAction/CatchErr'
 import { store } from '../../../../../store'
 import Loading from '../../../../global/Loading'
-import ModalToAddMoney from './partials/ModalToAddMoney'
+import ModalToManageMoney from './partials/ModalToManageMoney'
 
 class MainHeader extends Component {
   constructor(props) {
@@ -56,11 +56,11 @@ class MainHeader extends Component {
             <div className="money-container">
               <div className="label-money">Mes &eacute;conomies</div>
               <div
-                data-target="add-money"
+                data-target="add-amount-money"
                 className="money-value modal-trigger"
               >
                 <span>{money}</span>
-                <i className="material-icons">add_box</i>
+                <i className="material-icons">iso</i>
               </div>
             </div>
           </>
@@ -74,7 +74,12 @@ class MainHeader extends Component {
             power_settings_new
           </i>
         </div>
-        <ModalToAddMoney id="add-money" userId={id} token={token} />
+        <ModalToManageMoney
+          id="add-amount-money"
+          userId={id}
+          token={token}
+          typeSelect
+        />
       </div>
     )
   }
