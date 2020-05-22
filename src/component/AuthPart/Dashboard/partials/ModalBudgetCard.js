@@ -2,7 +2,6 @@ import Axios from 'axios'
 import M from 'materialize-css'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 import { api, configApi } from '../../../../config/parameters'
 import { catchErr } from '../../../../globalAction/CatchErr'
 import { SuccesSwal } from '../../../../globalAction/swal'
@@ -18,10 +17,6 @@ class ModalBudgetCard extends Component {
       startMoney: 0,
       ceil: '',
       dateSelected: '',
-      idToUse:
-        props.budgetCard !== undefined
-          ? `edit${props.budgetCard.id}`
-          : 'create-card',
     }
     this.handleChange = this.handleChange.bind(this)
     this.inputRequiredVerification = this.inputRequiredVerification.bind(this)
@@ -56,8 +51,8 @@ class ModalBudgetCard extends Component {
     let disabledBtn =
       title === '' ||
       ceil <= 0 ||
-      ceil === '' ||
-      startMoney === '' ||
+      !Number.isInteger(ceil) ||
+      !Number.isInteger(startMoney) ||
       startMoney < 0 ||
       dateSelected === ''
     this.setState({ disabledBtn })
@@ -69,7 +64,7 @@ class ModalBudgetCard extends Component {
     const { name } = e.target
     let { value } = e.target
 
-    if (Number.isInteger(parseInt(value))) {
+    if (Number.isInteger(parseFloat(value))) {
       value = parseInt(value)
     }
 
@@ -83,8 +78,8 @@ class ModalBudgetCard extends Component {
   }
 
   handleSubmit() {
-    const { token, userId, budgetCard } = this.props
-    const { idToUse, title, ceil, startMoney, dateSelected } = this.state
+    const { id, token, userId, budgetCard } = this.props
+    const { title, ceil, startMoney, dateSelected } = this.state
 
     const data = {
       title,
@@ -94,7 +89,7 @@ class ModalBudgetCard extends Component {
       userId,
     }
 
-    if (budgetCard !== undefined && idToUse === `edit${budgetCard.id}`) {
+    if (budgetCard !== undefined && id === `edit${budgetCard.id}`) {
       return Axios.patch(
         `${api}/api/budget-card/${budgetCard.id}`,
         data,
@@ -112,17 +107,11 @@ class ModalBudgetCard extends Component {
   }
 
   render() {
-    const {
-      idToUse,
-      disabledBtn,
-      title,
-      ceil,
-      startMoney,
-      dateSelected,
-    } = this.state
+    const { id } = this.props
+    const { disabledBtn, title, ceil, startMoney, dateSelected } = this.state
 
     return (
-      <div id={idToUse} className="modal card">
+      <div id={id} className="modal card">
         <div className="card-content">
           <form>
             <div className="input-field col s12">
@@ -158,7 +147,7 @@ class ModalBudgetCard extends Component {
               <label htmlFor="startMoney">Argent de départ (minimum : 0)</label>
             </div>
             <DatePicker
-              id={`picker${idToUse}`}
+              id={`picker${id}`}
               name="limitDate"
               className="input-field col s12"
               defaultValue={dateSelected}
@@ -181,13 +170,7 @@ ModalBudgetCard.propTypes = {
   budgetCard: PropTypes.object,
   token: PropTypes.string,
   userId: PropTypes.number,
+  id: PropTypes.string,
 }
 
-const mapStateToProps = state => {
-  return {
-    token: state.auth.token,
-    userId: state.auth.id,
-  }
-}
-
-export default connect(mapStateToProps)(ModalBudgetCard)
+export default ModalBudgetCard

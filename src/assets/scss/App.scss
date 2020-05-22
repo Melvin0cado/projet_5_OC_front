@@ -40,6 +40,15 @@ input::-o-outer-spin-button {
 	margin:0
 }
 
+.flex{
+  display: flex;
+  align-items: center;
+}
+
+.flex-column{
+  flex-direction: column;
+}
+
 .flex-between{
   display: flex;
   justify-content: space-between;

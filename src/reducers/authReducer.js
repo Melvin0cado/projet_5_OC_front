@@ -6,6 +6,7 @@ const INITSTATE = {
   username: '',
   email: '',
   token: '',
+  amountId: {},
 }
 
 export default (state = INITSTATE, action) => {
@@ -19,6 +20,7 @@ export default (state = INITSTATE, action) => {
         username: action.username,
         email: action.email,
         token: action.token,
+        amountId: action.amountId,
       }
     case ACTION_TYPE_AUTH.LOGOUT:
       return {
@@ -28,6 +30,7 @@ export default (state = INITSTATE, action) => {
         username: '',
         email: '',
         token: '',
+        amountId: null,
       }
     default:
       break

@@ -6,6 +6,7 @@ import React, { Component } from 'react'
 import { api, configApi } from '../../../../../config/parameters'
 import { catchErr } from '../../../../../globalAction/CatchErr'
 import { SuccesSwal } from '../../../../../globalAction/swal'
+import ModalToAddMoney from '../../../UserInterface/partials/MainHeader/partials/ModalToAddMoney'
 import ModalBudgetCard from '../ModalBudgetCard'
 import CustomChart from './partials/CustomChart'
 
@@ -64,13 +65,13 @@ class Card extends Component {
     const { id } = budgetCard
 
     Axios.delete(`${api}/api/budget-card/${id}`, configApi(token))
-      .then(res => SuccesSwal('La suppression est réussi'), 'refresh')
+      .then(() => SuccesSwal('La suppression est réussi'), 'refresh')
       .catch(err => catchErr(err.response))
   }
 
   render() {
-    const { budgetCard } = this.props
-    const { title, limitDate } = budgetCard
+    const { budgetCard, amountId, token } = this.props
+    const { id, title, limitDate } = budgetCard
 
     const TimeOut = this.traslateDate(this.CalculeTimeOut(limitDate))
 
@@ -92,14 +93,29 @@ class Card extends Component {
                   </div>
                   <div className="edit-btn bold title-size text-dark-blue2">
                     <i
-                      data-target={`edit${budgetCard.id}`}
+                      data-target={`edit${id}`}
                       className="material-icons modal-trigger"
                     >
                       edit
                     </i>
                   </div>
+                  <div className="add-money bold title-size text-dark-blue2">
+                    <i
+                      data-target={`add-money${id}`}
+                      className="material-icons modal-trigger"
+                    >
+                      add
+                    </i>
+                  </div>
+                  <div className="remove-money bold title-size text-dark-blue2">
+                    <i
+                      data-target={`remove-money${id}`}
+                      className="material-icons modal-trigger"
+                    >
+                      remove
+                    </i>
+                  </div>
                 </div>
-
                 <div className="sub-title">se termine {TimeOut}</div>
               </div>
             </div>
@@ -110,7 +126,25 @@ class Card extends Component {
             </div>
           </div>
         </div>
-        <ModalBudgetCard budgetCard={budgetCard} />
+        <ModalBudgetCard
+          id={`edit${id}`}
+          budgetCard={budgetCard}
+          token={token}
+        />
+        <ModalToAddMoney
+          token={token}
+          type={0}
+          id={`add-money${id}`}
+          budgetCard={budgetCard}
+          amountId={amountId}
+        />
+        <ModalToAddMoney
+          token={token}
+          type={1}
+          id={`remove-money${id}`}
+          budgetCard={budgetCard}
+          amountId={amountId}
+        />
       </>
     )
   }
@@ -119,6 +153,8 @@ class Card extends Component {
 Card.propTypes = {
   budgetCard: PropTypes.object,
   token: PropTypes.string,
+  id: PropTypes.number,
+  amountId: PropTypes.number,
 }
 
 export default Card

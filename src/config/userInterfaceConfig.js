@@ -4,7 +4,7 @@ export const sidebarConfig = [
     path: '/',
   },
   {
-    name: "Ajouter de l'argent",
-    path: '/add-money',
+    name: 'Gérer mes enveloppes',
+    path: '/managing/budgetCard',
   },
 ]

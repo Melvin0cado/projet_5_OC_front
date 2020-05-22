@@ -19,18 +19,19 @@ class MainHeader extends Component {
 
   componentDidMount() {
     const { id, token } = this.props
+    const powerOff = document.getElementById('power-off')
 
+    powerOff.style.width = `${powerOff.offsetHeight}px`
+
+    const disconnectBtn = document.getElementById('disconnectBtn')
+
+    disconnectBtn.style.width = `${disconnectBtn.offsetHeight}px`
     Axios.get(`${api}/api/amount/by-user/${id}`, configApi(token))
       .then(res => {
-        this.setState({ money: res.data.amount.money, loading: false }, () => {
-          const powerOff = document.getElementById('power-off')
-
-          powerOff.style.width = `${powerOff.offsetHeight}px`
-
-          const disconnectBtn = document.getElementById('disconnectBtn')
-
-          disconnectBtn.style.width = `${disconnectBtn.offsetHeight}px`
-        })
+        this.setState(
+          { money: res.data.amount.money, loading: false },
+          () => {}
+        )
       })
       .catch(err => catchErr(err.response))
   }
@@ -62,18 +63,18 @@ class MainHeader extends Component {
                 <i className="material-icons">add_box</i>
               </div>
             </div>
-            <div
-              id="disconnectBtn"
-              className="disconnectBtn btn waves-effect"
-              onClick={this.handleDisconnect}
-            >
-              <i id="power-off" className="power-off material-icons">
-                power_settings_new
-              </i>
-            </div>
           </>
         )}
-        <ModalToAddMoney userId={id} token={token} />
+        <div
+          id="disconnectBtn"
+          className="disconnectBtn btn waves-effect"
+          onClick={this.handleDisconnect}
+        >
+          <i id="power-off" className="power-off material-icons">
+            power_settings_new
+          </i>
+        </div>
+        <ModalToAddMoney id="add-money" userId={id} token={token} />
       </div>
     )
   }

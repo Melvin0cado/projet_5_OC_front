@@ -17,6 +17,7 @@ if (token) {
     role: user.roles,
     username: user.username,
     email: user.email,
+    amountId: user.amountId,
   })
 }
 

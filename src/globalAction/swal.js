@@ -18,7 +18,7 @@ export const SuccesSwal = (message, redirect = 'refresh') => {
     icon: 'success',
     showCancelButton: false,
     text: message,
-    timer: 3000,
+    timer: 5000,
     timerProgressBar: true,
   }).then(() => {
     if (redirect === 'refresh') {

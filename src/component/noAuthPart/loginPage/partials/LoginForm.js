@@ -67,6 +67,7 @@ class LoginForm extends Component {
           username: tokenData.username,
           email: tokenData.email,
           role: tokenData.roles,
+          amountId: tokenData.amountId,
         })
       })
       .catch(err => catchErr(err.response))

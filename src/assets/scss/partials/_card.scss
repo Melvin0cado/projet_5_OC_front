@@ -10,51 +10,57 @@
   }
 }
 
-
-.budget-card{
+.budget-card {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-}
 
-.chart-container{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+  & .chart-container {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
 
-.percentage{
-  position: absolute;
-  color: $dark-blue2;
-  margin-bottom: 2rem;
-}
+  & .percentage {
+    position: absolute;
+    color: $dark-blue2;
+  }
 
-.trash-can{
-  position: absolute;
-  top: 0px;
-  right: 5px;
+  & .trash-can,
+  & .edit-btn,
+  & .add-money,
+  & .remove-money {
+    position: absolute;
+    right: 5px;
 
-  & i{
-    color: #b91b1b;
-    cursor: pointer;
-
-    &:hover{
-      opacity: 0.75;
+    & i {
+      cursor: pointer;
+      &:hover {
+        opacity: 0.75;
+      }
     }
   }
-}
 
-.edit-btn{
-  position: absolute;
-  top: 25px;
-  right: 5px;
+  & .trash-can {
+    top: 0px;
 
-  & i{
-    cursor: pointer;
-
-    &:hover{
-      opacity: 0.75;
+    & i {
+      color: #b91b1b;
     }
+  }
+
+  & .edit-btn {
+    top: 25px;
+  }
+
+  & .add-money {
+    top: 50px;
+  }
+
+  & .remove-money {
+    top: 75px;
   }
 }
