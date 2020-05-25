@@ -1,26 +1,41 @@
 import PropTypes from 'prop-types'
-import React from 'react'
+import React, { Component } from 'react'
 import MainHeader from './partials/MainHeader/MainHeader'
 import Sidebar from './partials/Sidebar'
 
-const UserInterface = props => {
-  const { authenticated, children, id, token } = props
+class UserInterface extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      actualPage: 'Tableau de bord',
+    }
+    this.getDataFromChild = this.getDataFromChild.bind(this)
+  }
 
-  return (
-    <>
-      {authenticated === true ? (
-        <div className="allContainer">
-          <Sidebar />
-          <div className="containerRight">
-            <MainHeader id={id} token={token} />
-            <div className="main-container">{children}</div>
+  getDataFromChild(name, value) {
+    this.setState({ [name]: value })
+  }
+
+  render() {
+    const { authenticated, children, id, token } = this.props
+    const { actualPage } = this.state
+
+    return (
+      <>
+        {authenticated === true ? (
+          <div className="allContainer">
+            <Sidebar setDataToParent={this.getDataFromChild} />
+            <div className="containerRight">
+              <MainHeader id={id} token={token} actualPage={actualPage} />
+              <div className="main-container">{children}</div>
+            </div>
           </div>
-        </div>
-      ) : (
-        <div>{children}</div>
-      )}
-    </>
-  )
+        ) : (
+          <div>{children}</div>
+        )}
+      </>
+    )
+  }
 }
 
 UserInterface.propTypes = {

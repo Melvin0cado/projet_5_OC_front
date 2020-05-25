@@ -3,12 +3,12 @@ import M from 'materialize-css'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { api, configApi } from '../../config/parameters'
-import { catchErr } from '../../globalAction/CatchErr'
-import Loading from '../global/Loading'
-import Card from './Dashboard/partials/Card/Card'
-import ModalBudgetCard from './Dashboard/partials/ModalBudgetCard'
-import PlaceholderCard from './Dashboard/partials/PlaceholderCard'
+import { api, configApi } from '../../../config/parameters'
+import { catchErr } from '../../../globalAction/CatchErr'
+import Loading from '../../global/Loading'
+import Card from '../Card/Card'
+import ModalBudgetCard from './partials/ModalBudgetCard'
+import PlaceholderCard from './partials/PlaceholderCard'
 
 class ManagingBudgetCard extends Component {
   constructor(props) {
@@ -36,7 +36,7 @@ class ManagingBudgetCard extends Component {
   }
 
   render() {
-    const { username, token, userId, amountId } = this.props
+    const { token, userId, amountId } = this.props
     const { loading, budgetCards } = this.state
 
     if (loading) {
@@ -45,18 +45,27 @@ class ManagingBudgetCard extends Component {
 
     return (
       <div className="row">
-        <div className="row">{`Bienvenue ${username}`}</div>
-        <div>
+        <div className="row">
           <PlaceholderCard handleModal={this.handleModal} />
+        </div>
+        <div className="row">
           {budgetCards.map(budgetCard => (
             <Card
               key={budgetCard.id}
               token={token}
+              getCardList={this.getCardList}
+              userId={userId}
               amountId={amountId}
               budgetCard={budgetCard}
             />
           ))}
-          <ModalBudgetCard id="create-card" token={token} userId={userId} />
+          <ModalBudgetCard
+            id="create-card"
+            token={token}
+            userId={userId}
+            getCardList={this.getCardList}
+            mainTitle="Créer une enveloppe"
+          />
         </div>
       </div>
     )
@@ -64,7 +73,6 @@ class ManagingBudgetCard extends Component {
 }
 
 ManagingBudgetCard.propTypes = {
-  username: PropTypes.string.isRequired,
   userId: PropTypes.number,
   amountId: PropTypes.number,
   token: PropTypes.string,
@@ -72,7 +80,6 @@ ManagingBudgetCard.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    username: state.auth.username,
     userId: state.auth.id,
     token: state.auth.token,
     amountId: state.auth.amountId,

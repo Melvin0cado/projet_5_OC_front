@@ -99,7 +99,7 @@ class LoginForm extends Component {
           <div className="col 2">
             <Button
               type="button"
-              text="Valider"
+              text="Connexion"
               disabled={disabledBtn}
               onClick={this.handleSubmit}
             />

@@ -2,3 +2,7 @@ export const ACTION_TYPE_AUTH = {
   LOGIN: 'LOGIN',
   LOGOUT: 'LOGOUT',
 }
+
+export const ACTION_TYPE_AMOUNT_MONEY = {
+  UPDATE_MONEY: 'UPDATE_MONEY',
+}

@@ -65,6 +65,57 @@ class CustomChart extends Component {
     })
   }
 
+  componentDidUpdate(prevProps) {
+    const { budgetCard } = this.props
+    const { id, ceil, currentMoney } = budgetCard
+
+    if (prevProps.budgetCard !== budgetCard) {
+      const ctx = document.getElementById(`budgetCard${id}`)
+
+      const labels = ['Progression', 'Reste']
+      const data = [currentMoney, ceil - currentMoney]
+      const backgroundColor = ['#00ff4c', '#225d9b']
+      this.setState({ labels, data, backgroundColor })
+
+      const percentage = document.getElementById(`percentage${id}`)
+      percentage.style.textAlign = 'center'
+      new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: [`${labels[0]} : ${data[0]}`, `${labels[1]} : ${data[1]}`],
+          datasets: [
+            {
+              data: [currentMoney, ceil - currentMoney],
+              backgroundColor: backgroundColor,
+              borderWidth: 0,
+              hoverBorderColor: 'black',
+              hoverBorderWidth: 1,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          cutoutPercentage: 75,
+          tooltips: {
+            callbacks: {
+              label: this.customLabelChart,
+            },
+          },
+          legend: {
+            position: 'top',
+            align: 'center',
+            onClick: null,
+            labels: {
+              usePointStyle: true,
+              boxWidth: 10,
+            },
+            display: false,
+          },
+        },
+      })
+    }
+  }
+
   customLabelChart(tooltipItem, data) {
     const index = tooltipItem.index
 

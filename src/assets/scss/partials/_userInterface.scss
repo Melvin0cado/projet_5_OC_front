@@ -52,8 +52,6 @@
   color: white;
 
   & .money-container {
-    cursor: pointer;
-
     & .money-value {
       display: flex;
       justify-content: space-between;
@@ -62,8 +60,12 @@
       min-width: 150px;
       padding: 10px;
 
-      &:hover i{
-        opacity: 0.85;
+      & i {
+        cursor: pointer;
+
+        &:hover {
+          opacity: 0.85;
+        }
       }
     }
   }
@@ -75,6 +77,7 @@
   justify-content: center;
   margin-right: 10px;
   margin-left: 20%;
+  padding: 30px !important;
   box-sizing: border-box;
   height: 80%;
   padding: 0px;
@@ -91,4 +94,8 @@
   font-weight: 900;
   color: $dark-blue3;
   font-size: 35px !important;
+}
+
+.mainLogo {
+  width: 3em;
 }

@@ -1,12 +1,15 @@
 import Axios from 'axios'
-import { FormSelect, Modal } from 'materialize-css'
+import { Modal } from 'materialize-css'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { ACTION_TYPE_AMOUNT_MONEY } from '../../../../../../actions/types'
 import { api, configApi } from '../../../../../../config/parameters'
-import { selectOptionTypeTransaction } from '../../../../../../config/selectOptionConfig'
 import { catchErr } from '../../../../../../globalAction/CatchErr'
 import { SuccesSwal } from '../../../../../../globalAction/swal'
+import { store } from '../../../../../../store'
 import Button from '../../../../../global/Button'
+import { clearInput } from '../../../../../global/function/materializeFunction'
 
 class ModalToManageMoney extends Component {
   constructor(props) {
@@ -21,19 +24,15 @@ class ModalToManageMoney extends Component {
 
   componentDidMount() {
     const { id } = this.props
-    Modal.init(document.getElementById(id))
-    FormSelect.init(document.querySelectorAll('select'))
+    const instanceModal = Modal.init(document.getElementById(id))
+
+    this.setState({ instanceModal })
   }
 
   inputRequiredVerification() {
-    const { typeSelect } = this.props
-    const { money, operationType } = this.state
+    const { money } = this.state
 
     let disabledBtn = !Number.isInteger(money) || money <= 0
-
-    if (typeSelect) {
-      disabledBtn = disabledBtn || operationType === undefined
-    }
 
     this.setState({ disabledBtn })
 
@@ -50,26 +49,31 @@ class ModalToManageMoney extends Component {
 
     this.setState({ [name]: value }, () => {
       this.inputRequiredVerification()
-      if (name === 'operationType') {
-        FormSelect.init(document.querySelectorAll('select'))
-      }
     })
   }
 
   handleSubmit() {
-    const { id, token, userId, type } = this.props
-    const { money, operationType } = this.state
+    const {
+      id,
+      token,
+      userId,
+      type,
+      amountMoney,
+      addToAmountMoney,
+      removeToAmountMoney,
+    } = this.props
+    const { money, instanceModal } = this.state
 
     let data = {
       money,
     }
 
-    if (id === 'add-amount-money') {
-      data.type = operationType
+    if (id === 'add-amount-money' || id === 'remove-amount-money') {
+      data.type = type
 
       let message = "L'ajout d'argent dans vos économies est réussi"
 
-      if (operationType === 1) {
+      if (type === 1) {
         message = "La soustraction d'argent dans vos économies est réussi"
       }
 
@@ -78,10 +82,21 @@ class ModalToManageMoney extends Component {
         data,
         configApi(token)
       )
-        .then(() => SuccesSwal(message, 'refresh'))
+        .then(res => {
+          if (res.status === 200) {
+            if (type === 0) {
+              addToAmountMoney(money)
+            } else if (type === 1) {
+              removeToAmountMoney(money)
+            }
+            instanceModal.close()
+            clearInput()
+            SuccesSwal(message, null)
+          }
+        })
         .catch(err => catchErr(err.response))
     } else {
-      const { budgetCard, amountId } = this.props
+      const { budgetCard, amountId, getCardList } = this.props
       const { title } = budgetCard
 
       data.type = type
@@ -95,50 +110,42 @@ class ModalToManageMoney extends Component {
       }
 
       return Axios.post(`${api}/api/deal/create`, data, configApi(token))
-        .then(() => SuccesSwal(message, 'refresh'))
+        .then(res => {
+          if (res.status === 201) {
+            getCardList()
+            if (type === 0) {
+              store.dispatch({
+                type: ACTION_TYPE_AMOUNT_MONEY.UPDATE_MONEY,
+                money: amountMoney - money,
+              })
+            } else if (type === 1) {
+              store.dispatch({
+                type: ACTION_TYPE_AMOUNT_MONEY.UPDATE_MONEY,
+                money: amountMoney + money,
+              })
+            }
+
+            instanceModal.close()
+            clearInput()
+            SuccesSwal(message, null)
+          }
+        })
         .catch(err => catchErr(err.response))
     }
   }
 
   render() {
-    const { id, type, typeSelect } = this.props
-    const { disabledBtn, operationType } = this.state
+    const { id, type, mainTitle } = this.props
+    const { disabledBtn } = this.state
 
     let labelForMoney = type === 1 ? "Soustraction d'argent" : "Ajout d'argent"
-
-    if (operationType !== undefined) {
-      labelForMoney =
-        operationType === 1 ? "Soustraction d'argent" : "Ajout d'argent"
-    }
-
-    let defaultValueForOperationType =
-      typeSelect === undefined ? type : 'select-label'
 
     return (
       <div id={id} className="modal card">
         <div className="card-content">
+          <div className="row bold text-dark-blue3 title-size">{mainTitle}</div>
           <form className="row">
-            <div className="input-field col s4">
-              <select
-                name="operationType"
-                type="number"
-                onChange={this.handleChange}
-                defaultValue={defaultValueForOperationType}
-                disabled={type !== undefined}
-                required
-              >
-                <option value="select-label" disabled>
-                  sélectionnez une option
-                </option>
-                {selectOptionTypeTransaction.map(type => (
-                  <option key={type.value} value={type.value}>
-                    {type.name}
-                  </option>
-                ))}
-              </select>
-              <label htmlFor="money">{"type d'opération"}</label>
-            </div>
-            <div className="input-field col s8">
+            <div className="input-field col s12">
               <input
                 name="money"
                 type="number"
@@ -170,7 +177,17 @@ ModalToManageMoney.propTypes = {
   id: PropTypes.string,
   budgetCard: PropTypes.object,
   title: PropTypes.string,
-  typeSelect: PropTypes.bool,
+  mainTitle: PropTypes.string,
+  addToAmountMoney: PropTypes.func,
+  removeToAmountMoney: PropTypes.func,
+  getCardList: PropTypes.func,
+  amountMoney: PropTypes.number,
 }
 
-export default ModalToManageMoney
+const mapStateToProps = state => {
+  return {
+    amountMoney: state.amount.money,
+  }
+}
+
+export default connect(mapStateToProps)(ModalToManageMoney)

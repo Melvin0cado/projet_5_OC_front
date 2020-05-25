@@ -1,5 +1,5 @@
 import Axios from 'axios'
-import M from 'materialize-css'
+import M, { Modal } from 'materialize-css'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { api, configApi } from '../../../../config/parameters'
@@ -7,6 +7,7 @@ import { catchErr } from '../../../../globalAction/CatchErr'
 import { SuccesSwal } from '../../../../globalAction/swal'
 import Button from '../../../global/Button'
 import DatePicker from '../../../global/DatePicker'
+import { clearInput } from '../../../global/function/materializeFunction'
 
 class ModalBudgetCard extends Component {
   constructor(props) {
@@ -25,7 +26,9 @@ class ModalBudgetCard extends Component {
   }
 
   componentDidMount() {
-    const { budgetCard } = this.props
+    const { budgetCard, id } = this.props
+
+    const instanceModal = Modal.init(document.getElementById(id))
 
     if (budgetCard !== undefined) {
       const { title, currentMoney, ceil, limitDate } = budgetCard
@@ -43,6 +46,7 @@ class ModalBudgetCard extends Component {
     } else {
       M.updateTextFields()
     }
+    this.setState({ instanceModal })
   }
 
   inputRequiredVerification() {
@@ -78,8 +82,8 @@ class ModalBudgetCard extends Component {
   }
 
   handleSubmit() {
-    const { id, token, userId, budgetCard } = this.props
-    const { title, ceil, startMoney, dateSelected } = this.state
+    const { id, token, userId, budgetCard, getCardList } = this.props
+    const { title, ceil, startMoney, dateSelected, instanceModal } = this.state
 
     const data = {
       title,
@@ -88,31 +92,54 @@ class ModalBudgetCard extends Component {
       limitDate: dateSelected,
       userId,
     }
-
     if (budgetCard !== undefined && id === `edit${budgetCard.id}`) {
       return Axios.patch(
         `${api}/api/budget-card/${budgetCard.id}`,
         data,
         configApi(token)
       )
-        .then(() =>
-          SuccesSwal("L'édition de l'enveloppe est réussi", 'refresh')
-        )
+        .then(res => {
+          if (res.status === 200) {
+            getCardList()
+            this.setState(
+              {
+                disabledBtn: false,
+                title: res.data.title,
+                startMoney: res.data.currentMoney,
+                ceil: res.data.ceil,
+                dateSelected: res.data.limitDate,
+              },
+              () => M.updateTextFields()
+            )
+            instanceModal.close()
+            SuccesSwal("L'édition de l'enveloppe est réussi", null)
+          }
+        })
         .catch(err => catchErr(err.response))
     }
 
     Axios.post(`${api}/api/budget-card/create`, data, configApi(token))
-      .then(() => SuccesSwal("Création de l'enveloppe est réussi", 'refresh'))
-      .catch(err => catchErr(err.response))
+      .then(res => {
+        console.log(getCardList)
+        if (res.status === 201) {
+          clearInput()
+          getCardList()
+          M.updateTextFields()
+          instanceModal.close()
+          SuccesSwal("Création de l'enveloppe est réussi", null)
+        }
+      })
+      .catch(err => console.log(err) || catchErr(err.response))
   }
 
   render() {
-    const { id } = this.props
+    const { id, mainTitle } = this.props
     const { disabledBtn, title, ceil, startMoney, dateSelected } = this.state
 
     return (
       <div id={id} className="modal card">
         <div className="card-content">
+          <div className="row bold text-dark-blue3 title-size">{mainTitle}</div>
           <form>
             <div className="input-field col s12">
               <input
@@ -171,6 +198,8 @@ ModalBudgetCard.propTypes = {
   token: PropTypes.string,
   userId: PropTypes.number,
   id: PropTypes.string,
+  mainTitle: PropTypes.string,
+  getCardList: PropTypes.func,
 }
 
 export default ModalBudgetCard

@@ -1,13 +1,13 @@
 import Axios from 'axios'
-import M from 'materialize-css'
+import { Tooltip } from 'materialize-css'
 import moment from 'moment'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import { api, configApi } from '../../../../../config/parameters'
-import { catchErr } from '../../../../../globalAction/CatchErr'
-import { SuccesSwal } from '../../../../../globalAction/swal'
-import ModalToManageMoney from '../../../UserInterface/partials/MainHeader/partials/ModalToManageMoney'
-import ModalBudgetCard from '../ModalBudgetCard'
+import { api, configApi } from '../../../config/parameters'
+import { catchErr } from '../../../globalAction/CatchErr'
+import { SuccesSwal } from '../../../globalAction/swal'
+import ModalBudgetCard from '../ManagingBudgetCard/partials/ModalBudgetCard'
+import ModalToManageMoney from '../UserInterface/partials/MainHeader/partials/ModalToManageMoney'
 import CustomChart from './partials/CustomChart'
 
 class Card extends Component {
@@ -19,7 +19,8 @@ class Card extends Component {
 
   componentDidMount() {
     const { id } = this.props.budgetCard
-    M.Modal.init(document.getElementById(`edit${id}`))
+    const tooltip = document.getElementById(`dateToolTip${id}`)
+    Tooltip.init(tooltip)
   }
 
   CalculeTimeOut(time) {
@@ -61,16 +62,19 @@ class Card extends Component {
   }
 
   handleDelete() {
-    const { budgetCard, token } = this.props
+    const { budgetCard, token, getCardList } = this.props
     const { id } = budgetCard
 
     Axios.delete(`${api}/api/budget-card/${id}`, configApi(token))
-      .then(() => SuccesSwal('La suppression est réussi'), 'refresh')
+      .then(() => {
+        getCardList()
+        SuccesSwal('La suppression est réussi', null)
+      })
       .catch(err => catchErr(err.response))
   }
 
   render() {
-    const { budgetCard, amountId, token } = this.props
+    const { budgetCard, amountId, token, getCardList, userId } = this.props
     const { id, title, limitDate } = budgetCard
 
     const TimeOut = this.traslateDate(this.CalculeTimeOut(limitDate))
@@ -116,7 +120,19 @@ class Card extends Component {
                     </i>
                   </div>
                 </div>
-                <div className="sub-title">se termine {TimeOut}</div>
+                <div className="flex flex-center">
+                  <span className="sub-title">se termine {TimeOut}</span>
+                  <i
+                    id={`dateToolTip${id}`}
+                    className="material-icons dateToolTip tooltipped text-dark-blue3 margin-l5"
+                    data-position="bottom"
+                    data-tooltip={moment(budgetCard.limitDate).format(
+                      'DD/MM/YYYY'
+                    )}
+                  >
+                    info
+                  </i>
+                </div>
               </div>
             </div>
             <div className="row">
@@ -128,12 +144,17 @@ class Card extends Component {
         </div>
         <ModalBudgetCard
           id={`edit${id}`}
+          getCardList={getCardList}
           budgetCard={budgetCard}
+          userId={userId}
+          mainTitle="Modifier l'enveloppe"
           token={token}
         />
         <ModalToManageMoney
           token={token}
           type={0}
+          getCardList={getCardList}
+          mainTitle={`Ajouter de l'argent dans l'enveloppe ${budgetCard.title}`}
           id={`add-money${id}`}
           budgetCard={budgetCard}
           amountId={amountId}
@@ -141,6 +162,8 @@ class Card extends Component {
         <ModalToManageMoney
           token={token}
           type={1}
+          getCardList={getCardList}
+          mainTitle={`Soustraire de l'argent dans l'enveloppe ${budgetCard.title}`}
           id={`remove-money${id}`}
           budgetCard={budgetCard}
           amountId={amountId}
@@ -155,6 +178,8 @@ Card.propTypes = {
   token: PropTypes.string,
   id: PropTypes.number,
   amountId: PropTypes.number,
+  getCardList: PropTypes.func,
+  userId: PropTypes.number,
 }
 
 export default Card

@@ -6,9 +6,6 @@ import { connect } from 'react-redux'
 import { api, configApi } from '../../../config/parameters'
 import { catchErr } from '../../../globalAction/CatchErr'
 import Loading from '../../global/Loading'
-import Card from './partials/Card/Card'
-import ModalBudgetCard from './partials/ModalBudgetCard'
-import PlaceholderCard from './partials/PlaceholderCard'
 
 class Dashboard extends Component {
   constructor(props) {
@@ -46,18 +43,7 @@ class Dashboard extends Component {
     return (
       <div className="row">
         <div className="row">{`Bienvenue ${username}`}</div>
-        <div>
-          <PlaceholderCard />
-          {budgetCards.map(budgetCard => (
-            <Card
-              key={budgetCard.id}
-              token={token}
-              budgetCard={budgetCard}
-              amountId={amountId}
-            />
-          ))}
-          <ModalBudgetCard id="create-card" />
-        </div>
+        <div>Dashboard</div>
       </div>
     )
   }

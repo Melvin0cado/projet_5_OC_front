@@ -66,6 +66,10 @@ class RegistrationForm extends Component {
     return (
       <div className="container row">
         <form className="col s12">
+          <span className="title-size col s12 bold-ligth text-dark-blue3">
+            Inscription
+          </span>
+
           <div className="input-field col s12">
             <input name="name" type="text" onChange={this.handleChange} />
             <label htmlFor="name">Nom de compte</label>
@@ -93,7 +97,7 @@ class RegistrationForm extends Component {
           <div className="center-align">
             <Button
               type="button"
-              text="Valider"
+              text="S'inscrire"
               disabled={disabledBtn}
               onClick={this.handleClick}
             />
