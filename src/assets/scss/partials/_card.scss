@@ -29,6 +29,19 @@
     color: $dark-blue2;
   }
 
+  & .favorite-btn {
+    position: absolute;
+    left: 5px;
+    top: 0px;
+
+    & i {
+      cursor: pointer;
+      &:hover {
+        opacity: 0.75;
+      }
+    }
+  }
+
   & .trash-can,
   & .edit-btn,
   & .add-money,
@@ -64,7 +77,7 @@
     top: 75px;
   }
 
-  & .dateToolTip{
+  & .dateToolTip {
     font-size: 1.2em;
     cursor: pointer;
   }

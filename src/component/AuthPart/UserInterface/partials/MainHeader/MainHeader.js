@@ -2,10 +2,11 @@ import Axios from 'axios'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { ACTION_TYPE_AMOUNT_MONEY, ACTION_TYPE_AUTH } from '../../../../../actions/types'
+import { ACTION_TYPE_AMOUNT_MONEY } from '../../../../../actions/types'
 import { api, configApi } from '../../../../../config/parameters'
 import { catchErr } from '../../../../../globalAction/CatchErr'
 import { store } from '../../../../../store'
+import { disconnect } from '../../../../global/function/disconnect'
 import Loading from '../../../../global/Loading'
 import ModalToManageMoney from './partials/ModalToManageMoney'
 
@@ -41,10 +42,7 @@ class MainHeader extends Component {
   }
 
   handleDisconnect() {
-    localStorage.removeItem('token')
-    store.dispatch({
-      type: ACTION_TYPE_AUTH.LOGOUT,
-    })
+    disconnect()
   }
 
   addToAmountMoney(moneyToAdd) {

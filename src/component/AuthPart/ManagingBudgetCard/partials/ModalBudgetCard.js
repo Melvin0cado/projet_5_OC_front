@@ -120,7 +120,6 @@ class ModalBudgetCard extends Component {
 
     Axios.post(`${api}/api/budget-card/create`, data, configApi(token))
       .then(res => {
-        console.log(getCardList)
         if (res.status === 201) {
           clearInput()
           getCardList()
@@ -129,7 +128,7 @@ class ModalBudgetCard extends Component {
           SuccesSwal("Création de l'enveloppe est réussi", null)
         }
       })
-      .catch(err => console.log(err) || catchErr(err.response))
+      .catch(err => catchErr(err.response))
   }
 
   render() {

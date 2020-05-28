@@ -1,9 +1,16 @@
 import { ErrorSwal } from './swal'
 
 export const catchErr = error => {
-  const { status, message } = error.data
+  const { code } = error.data
+  let { message } = error.data
 
-  switch (status) {
+  if (code === 401 && message === 'Expired JWT Token') {
+    message = 'Votre session à expiré'
+  }
+  switch (code) {
+    case 401:
+      ErrorSwal(message, true)
+      break
     case 404:
     case 409:
       ErrorSwal(message)

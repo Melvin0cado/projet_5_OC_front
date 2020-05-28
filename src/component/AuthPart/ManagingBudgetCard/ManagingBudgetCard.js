@@ -17,10 +17,36 @@ class ManagingBudgetCard extends Component {
       loading: true,
     }
     this.getCardList = this.getCardList.bind(this)
+    this.getFavoriteRelation = this.getFavoriteRelation.bind(this)
   }
 
   componentDidMount() {
+    const { userId, token } = this.props
     this.getCardList()
+    this.getFavoriteRelation()
+  }
+
+  getFavoriteRelation() {
+    const { userId, token } = this.props
+    Axios.get(
+      `${api}/api/favorite-budget-card/by-userId/${userId}`,
+      configApi(token)
+    )
+      .then(res => {
+        const budgetCardsInFavoriteId = []
+        const favoriteRelationList = []
+        res.data.favoriteBudgetCards.forEach(favoriteCard => {
+          budgetCardsInFavoriteId.push(favoriteCard.budgetCard.id)
+          favoriteRelationList.push(favoriteCard)
+        })
+
+        this.setState({
+          budgetCardsInFavoriteId,
+          favoriteRelationList,
+          favoriteBudgetCards: res.data.favoriteBudgetCards,
+        })
+      })
+      .catch(err => catchErr(err.response))
   }
 
   getCardList() {
@@ -37,7 +63,13 @@ class ManagingBudgetCard extends Component {
 
   render() {
     const { token, userId, amountId } = this.props
-    const { loading, budgetCards } = this.state
+    const {
+      loading,
+      budgetCards,
+      budgetCardsInFavoriteId,
+      favoriteBudgetCards,
+      favoriteRelationList,
+    } = this.state
 
     if (loading) {
       return <Loading size="big" />
@@ -49,16 +81,26 @@ class ManagingBudgetCard extends Component {
           <PlaceholderCard handleModal={this.handleModal} />
         </div>
         <div className="row">
-          {budgetCards.map(budgetCard => (
-            <Card
-              key={budgetCard.id}
-              token={token}
-              getCardList={this.getCardList}
-              userId={userId}
-              amountId={amountId}
-              budgetCard={budgetCard}
-            />
-          ))}
+          {budgetCardsInFavoriteId !== undefined ? (
+            <>
+              {budgetCards.map(budgetCard => (
+                <Card
+                  key={budgetCard.id}
+                  token={token}
+                  getCardList={this.getCardList}
+                  favoriteBudgetCards={favoriteBudgetCards}
+                  getFavoriteRelation={this.getFavoriteRelation}
+                  favoriteRelationList={favoriteRelationList}
+                  budgetCardsInFavoriteId={budgetCardsInFavoriteId}
+                  userId={userId}
+                  amountId={amountId}
+                  budgetCard={budgetCard}
+                />
+              ))}
+            </>
+          ) : (
+            <Loading />
+          )}
           <ModalBudgetCard
             id="create-card"
             token={token}
