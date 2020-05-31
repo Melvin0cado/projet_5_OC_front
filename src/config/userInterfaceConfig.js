@@ -7,4 +7,8 @@ export const sidebarConfig = [
     name: 'Gérer mes enveloppes',
     path: '/managing/budgetCard',
   },
+  {
+    name: 'Historique des transactions',
+    path: '/deal/history',
+  },
 ]

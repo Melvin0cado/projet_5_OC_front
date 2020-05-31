@@ -82,7 +82,14 @@ class ModalBudgetCard extends Component {
   }
 
   handleSubmit() {
-    const { id, token, userId, budgetCard, getCardList } = this.props
+    const {
+      token,
+      userId,
+      budgetCard,
+      getCardList,
+      getFavoriteRelation,
+      edit,
+    } = this.props
     const { title, ceil, startMoney, dateSelected, instanceModal } = this.state
 
     const data = {
@@ -92,7 +99,8 @@ class ModalBudgetCard extends Component {
       limitDate: dateSelected,
       userId,
     }
-    if (budgetCard !== undefined && id === `edit${budgetCard.id}`) {
+
+    if (budgetCard !== undefined && edit !== undefined) {
       return Axios.patch(
         `${api}/api/budget-card/${budgetCard.id}`,
         data,
@@ -101,6 +109,8 @@ class ModalBudgetCard extends Component {
         .then(res => {
           if (res.status === 200) {
             getCardList()
+            getFavoriteRelation()
+
             this.setState(
               {
                 disabledBtn: false,
@@ -140,7 +150,7 @@ class ModalBudgetCard extends Component {
         <div className="card-content">
           <div className="row bold text-dark-blue3 title-size">{mainTitle}</div>
           <form>
-            <div className="input-field col s12">
+            <div className="input-field col m12  l12">
               <input
                 name="title"
                 type="text"
@@ -150,7 +160,7 @@ class ModalBudgetCard extends Component {
               />
               <label htmlFor="title">Titre</label>
             </div>
-            <div className="input-field col s12">
+            <div className="input-field col m12  l12">
               <input
                 name="ceil"
                 type="number"
@@ -161,7 +171,7 @@ class ModalBudgetCard extends Component {
               />
               <label htmlFor="ceil">Plafond (ex: 50)</label>
             </div>
-            <div className="input-field col s12">
+            <div className="input-field col m12  l12">
               <input
                 name="startMoney"
                 type="number"
@@ -175,7 +185,7 @@ class ModalBudgetCard extends Component {
             <DatePicker
               id={`picker${id}`}
               name="limitDate"
-              className="input-field col s12"
+              className="input-field col m12  l12"
               defaultValue={dateSelected}
               setDateSelected={this.setDateSelected}
             />
@@ -199,6 +209,8 @@ ModalBudgetCard.propTypes = {
   id: PropTypes.string,
   mainTitle: PropTypes.string,
   getCardList: PropTypes.func,
+  edit: PropTypes.bool,
+  getFavoriteRelation: PropTypes.func,
 }
 
 export default ModalBudgetCard

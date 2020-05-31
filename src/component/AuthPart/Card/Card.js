@@ -14,28 +14,57 @@ import CustomChart from './partials/CustomChart'
 class Card extends Component {
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      loading: true,
+    }
     this.handleDelete = this.handleDelete.bind(this)
     this.handleFavorite = this.handleFavorite.bind(this)
+    this.addFavoriteButton = this.addFavoriteButton.bind(this)
   }
 
   componentDidMount() {
+    this.addFavoriteButton()
+  }
+
+  componentDidUpdate(prevProps) {
+    const { budgetCardsInFavoriteId, id } = this.props
+    const { loading } = this.state
+
+    if (prevProps.budgetCardsInFavoriteId !== budgetCardsInFavoriteId) {
+      this.addFavoriteButton()
+    }
+
+    if (loading === false) {
+      const tooltip = document.getElementById(`dateToolTip${id}`)
+      Tooltip.init(tooltip)
+    }
+  }
+
+  addFavoriteButton() {
     const {
-      budgetCard,
       budgetCardsInFavoriteId,
       favoriteRelationList,
+      interaction,
+      budgetId,
+      id,
     } = this.props
-    const { id } = budgetCard
+
     const tooltip = document.getElementById(`dateToolTip${id}`)
     Tooltip.init(tooltip)
 
-    if (budgetCardsInFavoriteId.includes(id)) {
-      const findIdx = budgetCardsInFavoriteId.indexOf(id)
+    if (interaction === true && budgetCardsInFavoriteId.includes(budgetId)) {
+      const findIdx = budgetCardsInFavoriteId.indexOf(budgetId)
       const favorite = favoriteRelationList[findIdx]
+
       this.setState({
         isFavorite: favorite.isFavorite,
         favoriteRelationId: favorite.id,
+        loading: false,
       })
+    }
+
+    if (interaction === false) {
+      this.setState({ loading: false })
     }
   }
 
@@ -78,10 +107,9 @@ class Card extends Component {
   }
 
   handleDelete() {
-    const { budgetCard, token, getCardList, getFavoriteRelation } = this.props
-    const { id } = budgetCard
+    const { token, getCardList, getFavoriteRelation, budgetId } = this.props
 
-    Axios.delete(`${api}/api/budget-card/${id}`, configApi(token))
+    Axios.delete(`${api}/api/budget-card/${budgetId}`, configApi(token))
       .then(() => {
         getCardList()
         getFavoriteRelation()
@@ -107,66 +135,82 @@ class Card extends Component {
   }
 
   render() {
-    const { budgetCard, amountId, token, getCardList, userId } = this.props
-    const { id, title, limitDate } = budgetCard
+    const {
+      budgetCard,
+      amountId,
+      token,
+      getCardList,
+      userId,
+      interaction,
+      id,
+    } = this.props
+    const { loading } = this.state
+
+    if (loading === true) {
+      return <Loading />
+    }
+
+    const { title, limitDate } = budgetCard
     const { isFavorite } = this.state
 
     const TimeOut = this.traslateDate(this.CalculeTimeOut(limitDate))
 
     return (
       <>
-        <div className="col s3">
+        <div className="col m4 l3">
           <div className="budget-card card">
             <div className="full-width row text-center">
-              <div className="col s12">
+              <div className="col m12 l12">
                 <div>
                   <span className="bold title-size text-dark-blue2">
                     {title}
                   </span>
-
-                  <div
-                    className="favorite-btn bold title-size text-dark-blue2"
-                    onClick={this.handleFavorite}
-                  >
-                    {isFavorite !== undefined ? (
-                      <i className="material-icons rounded">
-                        {isFavorite === true ? 'star' : 'star_border'}
-                      </i>
-                    ) : (
-                      <Loading size="small" />
-                    )}
-                  </div>
-
-                  <div
-                    className="trash-can bold title-size text-dark-blue2"
-                    onClick={this.handleDelete}
-                  >
-                    <i className="material-icons rounded">delete</i>
-                  </div>
-                  <div className="edit-btn bold title-size text-dark-blue2">
-                    <i
-                      data-target={`edit${id}`}
-                      className="material-icons rounded modal-trigger"
-                    >
-                      edit
-                    </i>
-                  </div>
-                  <div className="add-money bold title-size text-dark-blue2">
-                    <i
-                      data-target={`add-money${id}`}
-                      className="material-icons rounded modal-trigger"
-                    >
-                      add
-                    </i>
-                  </div>
-                  <div className="remove-money bold title-size text-dark-blue2">
-                    <i
-                      data-target={`remove-money${id}`}
-                      className="material-icons modal-trigger"
-                    >
-                      remove
-                    </i>
-                  </div>
+                  {interaction && (
+                    <>
+                      <div
+                        className="favorite-btn bold title-size text-dark-blue2"
+                        onClick={this.handleFavorite}
+                      >
+                        {isFavorite !== undefined ? (
+                          <i className="material-icons rounded">
+                            {isFavorite === true ? 'star' : 'star_border'}
+                          </i>
+                        ) : (
+                          <Loading size="small" />
+                        )}
+                      </div>
+                      <div
+                        className="trash-can bold title-size text-dark-blue2"
+                        onClick={this.handleDelete}
+                      >
+                        <i className="material-icons rounded">delete</i>
+                      </div>
+                      <div className="edit-btn bold title-size text-dark-blue2">
+                        <i
+                          data-target={`edit${id}`}
+                          className="material-icons rounded modal-trigger"
+                        >
+                          edit
+                        </i>
+                      </div>
+                      <div className="add-money bold title-size text-dark-blue2">
+                        <i
+                          data-target={`add-money${id}`}
+                          className="material-icons rounded modal-trigger"
+                        >
+                          add
+                        </i>
+                      </div>
+                      <div className="remove-money bold title-size text-dark-blue2">
+                        <i
+                          data-target={`remove-money${id}`}
+                          className="material-icons modal-trigger"
+                        >
+                          remove
+                        </i>
+                      </div>
+                    </>
+                  )}
                 </div>
                 <div className="flex flex-center">
                   <span className="sub-title">se termine {TimeOut}</span>
@@ -184,14 +228,15 @@ class Card extends Component {
               </div>
             </div>
             <div className="row">
-              <div className="col s12">
-                <CustomChart budgetCard={budgetCard} />
+              <div className="col m12 l12">
+                <CustomChart cardId={id} budgetCard={budgetCard} />
               </div>
             </div>
           </div>
         </div>
         <ModalBudgetCard
           id={`edit${id}`}
+          edit
           getCardList={getCardList}
           budgetCard={budgetCard}
           userId={userId}
@@ -203,6 +248,7 @@ class Card extends Component {
           type={0}
           getCardList={getCardList}
           mainTitle={`Ajouter de l'argent dans l'enveloppe ${budgetCard.title}`}
+          userId={userId}
           id={`add-money${id}`}
           budgetCard={budgetCard}
           amountId={amountId}
@@ -212,6 +258,7 @@ class Card extends Component {
           type={1}
           getCardList={getCardList}
           mainTitle={`Soustraire de l'argent dans l'enveloppe ${budgetCard.title}`}
+          userId={userId}
           id={`remove-money${id}`}
           budgetCard={budgetCard}
           amountId={amountId}
@@ -224,7 +271,7 @@ class Card extends Component {
 Card.propTypes = {
   budgetCard: PropTypes.object,
   token: PropTypes.string,
-  id: PropTypes.number,
+  id: PropTypes.string,
   amountId: PropTypes.number,
   getCardList: PropTypes.func,
   getFavoriteRelation: PropTypes.func,
@@ -232,6 +279,8 @@ Card.propTypes = {
   budgetCardsInFavoriteId: PropTypes.array,
   favoriteBudgetCards: PropTypes.array,
   favoriteRelationList: PropTypes.array,
+  interaction: PropTypes.bool,
+  budgetId: PropTypes.number,
 }
 
 export default Card

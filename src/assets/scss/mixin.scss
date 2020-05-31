@@ -1,0 +1,5 @@
+@mixin response-to($point) {
+    @if $point == tablet {
+     @media (max-width: 950px) { @content ; }
+  }
+}

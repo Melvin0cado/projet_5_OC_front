@@ -77,8 +77,8 @@ class LoginForm extends Component {
     const { disabledBtn } = this.state
     return (
       <div className="row bg-dark-blue">
-        <form className="col s6 right valign-wrapper">
-          <div className="input-field col s5">
+        <form className="col m6 l6 right valign-wrapper">
+          <div className="input-field col m5 l5">
             <input
               name="email"
               type="email"
@@ -87,7 +87,7 @@ class LoginForm extends Component {
             />
             <label htmlFor="email">Email</label>
           </div>
-          <div className="input-field col s5">
+          <div className="input-field col m5 l5">
             <input
               name="password"
               type="password"

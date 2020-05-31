@@ -3,6 +3,7 @@ import React from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import App from './App'
 import Dashboard from './component/AuthPart/Dashboard/Dashboard'
+import DealHistory from './component/AuthPart/DealHystory/DealHistory'
 import ManagingBudgetCard from './component/AuthPart/ManagingBudgetCard/ManagingBudgetCard'
 import Page404 from './component/global/Page404'
 import LoginPage from './component/noAuthPart/loginPage/LoginPage'
@@ -23,6 +24,11 @@ const Router = () => {
             exact
             path="/managing/budgetCard"
             component={RequireAuth(ManagingBudgetCard, ROLE_USER)}
+          />
+          <Route
+            exact
+            path="/deal/history"
+            component={RequireAuth(DealHistory, ROLE_USER)}
           />
           <Route component={RequireAuth(Page404, ROLE_USER)} />
         </Switch>

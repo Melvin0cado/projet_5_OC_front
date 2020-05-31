@@ -7,7 +7,12 @@
 
   & i {
     color: $dark-blue2;
+    font-size: 400%;
   }
+}
+
+.card-title {
+  font-size: 1.5vw !important;
 }
 
 .budget-card {
@@ -24,6 +29,10 @@
     position: relative;
   }
 
+  & .graphic-container{
+    width: 25vw;
+  }
+
   & .percentage {
     position: absolute;
     color: $dark-blue2;
@@ -36,6 +45,10 @@
 
     & i {
       cursor: pointer;
+      background: $dark-blue2;
+      border-radius: 100%;
+      color: gold;
+      z-index: 1000;
       &:hover {
         opacity: 0.75;
       }
@@ -50,7 +63,9 @@
     right: 5px;
 
     & i {
+      position: relative;
       cursor: pointer;
+      z-index: 1000;
       &:hover {
         opacity: 0.75;
       }
@@ -78,7 +93,17 @@
   }
 
   & .dateToolTip {
-    font-size: 1.2em;
+    font-size: 1em;
     cursor: pointer;
+  }
+}
+
+.deal-card {
+  align-items: center;
+  padding: 1em;
+
+  &.header-table {
+    color: white; 
+    background-color: $dark-blue2;
   }
 }

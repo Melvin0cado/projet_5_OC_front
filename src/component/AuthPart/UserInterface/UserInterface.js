@@ -1,15 +1,29 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
+import { sidebarConfig } from '../../../config/userInterfaceConfig'
 import MainHeader from './partials/MainHeader/MainHeader'
 import Sidebar from './partials/Sidebar'
 
 class UserInterface extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      actualPage: 'Tableau de bord',
-    }
+    this.state = {}
     this.getDataFromChild = this.getDataFromChild.bind(this)
+  }
+
+  componentDidMount() {
+    const { location } = this.props
+    const { pathname } = location
+
+    for (let i = 0; i < sidebarConfig.length; i++) {
+      const sideBarItem = sidebarConfig[i]
+
+      if (pathname === sideBarItem.path) {
+        this.setState({ actualPage: sideBarItem.name })
+        break
+      }
+    }
   }
 
   getDataFromChild(name, value) {
@@ -43,6 +57,7 @@ UserInterface.propTypes = {
   authenticated: PropTypes.bool,
   id: PropTypes.number,
   token: PropTypes.string,
+  location: PropTypes.object,
 }
 
-export default UserInterface
+export default withRouter(UserInterface)

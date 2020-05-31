@@ -17,5 +17,4 @@ export const catchErr = error => {
       break
     default:
   }
-  console.log(error)
 }

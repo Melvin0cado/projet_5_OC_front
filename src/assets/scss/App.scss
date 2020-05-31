@@ -1,11 +1,11 @@
 @import './vars.scss';
+@import './mixin.scss';
 @import './partials/button';
 @import './partials/card';
 @import './partials/datePicker';
 @import './partials/modal';
 @import './partials/text';
 @import './partials/userInterface';
-
 
 body {
   min-height: 100vh;
@@ -24,48 +24,60 @@ body {
   margin: 2rem;
 }
 
-input[type=number] {
-    -moz-appearance: textfield;
+input[type='number'] {
+  -moz-appearance: textfield;
 }
 
 input::-webkit-inner-spin-button,
-input::-webkit-outer-spin-button { 
-	-webkit-appearance: none;
-	margin:0;
+input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 input::-o-inner-spin-button,
-input::-o-outer-spin-button { 
-	-o-appearance: none;
-	margin:0
+input::-o-outer-spin-button {
+  -o-appearance: none;
+  margin: 0;
 }
 
-.flex{
+.flex {
   display: flex;
   align-items: center;
 }
 
-.flex-column{
+.flex-column {
   flex-direction: column;
 }
 
-.flex-between{
+.flex-around {
+  justify-content: space-around;
+}
+
+.flex-between {
   justify-content: space-between;
 }
 
-.flex-center{
+.flex-center {
   justify-content: center;
 }
 
-.full-width{
+.align-stretch {
+  align-items: stretch !important;
+}
+
+.full-width {
   width: 100%;
 }
 
-.margin-l5{
+.margin-l5 {
   margin-left: 5px;
 }
 
-h1{
+h1 {
   margin: inherit;
   font-size: inherit;
+}
+
+.bg-dark-blue3 {
+  background-color: $dark-blue3;
 }

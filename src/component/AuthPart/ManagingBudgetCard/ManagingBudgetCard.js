@@ -1,5 +1,5 @@
 import Axios from 'axios'
-import M from 'materialize-css'
+import { Modal } from 'materialize-css'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
@@ -21,13 +21,12 @@ class ManagingBudgetCard extends Component {
   }
 
   componentDidMount() {
-    const { userId, token } = this.props
     this.getCardList()
-    this.getFavoriteRelation()
   }
 
   getFavoriteRelation() {
     const { userId, token } = this.props
+
     Axios.get(
       `${api}/api/favorite-budget-card/by-userId/${userId}`,
       configApi(token)
@@ -53,9 +52,10 @@ class ManagingBudgetCard extends Component {
     const { userId, token } = this.props
     Axios.get(`${api}/api/budget-card-by-userId/${userId}`, configApi(token))
       .then(res => {
+        this.getFavoriteRelation()
         this.setState(
           { budgetCards: res.data[0].budgetCards, loading: false },
-          () => M.Modal.init(document.getElementById('create-card'))
+          () => Modal.init(document.getElementById('create-card'))
         )
       })
       .catch(err => catchErr(err.response))
@@ -78,7 +78,7 @@ class ManagingBudgetCard extends Component {
     return (
       <div className="row">
         <div className="row">
-          <PlaceholderCard handleModal={this.handleModal} />
+          <PlaceholderCard />
         </div>
         <div className="row">
           {budgetCardsInFavoriteId !== undefined ? (
@@ -86,6 +86,8 @@ class ManagingBudgetCard extends Component {
               {budgetCards.map(budgetCard => (
                 <Card
                   key={budgetCard.id}
+                  budgetId={budgetCard.id}
+                  id={`cardBoard${budgetCard.id}`}
                   token={token}
                   getCardList={this.getCardList}
                   favoriteBudgetCards={favoriteBudgetCards}
@@ -95,6 +97,7 @@ class ManagingBudgetCard extends Component {
                   userId={userId}
                   amountId={amountId}
                   budgetCard={budgetCard}
+                  interaction
                 />
               ))}
             </>
@@ -106,6 +109,7 @@ class ManagingBudgetCard extends Component {
             token={token}
             userId={userId}
             getCardList={this.getCardList}
+            getFavoriteRelation={this.getFavoriteRelation}
             mainTitle="Créer une enveloppe"
           />
         </div>

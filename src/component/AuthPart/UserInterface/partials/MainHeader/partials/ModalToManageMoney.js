@@ -102,6 +102,7 @@ class ModalToManageMoney extends Component {
       data.type = type
       data.budgetCardId = budgetCard.id
       data.amountId = amountId
+      data.userId = userId
 
       let message = `L'ajout d'argent de l'enveloppe ${title} est réussi`
 
@@ -145,7 +146,7 @@ class ModalToManageMoney extends Component {
         <div className="card-content">
           <div className="row bold text-dark-blue3 title-size">{mainTitle}</div>
           <form className="row">
-            <div className="input-field col s12">
+            <div className="input-field col m12  l12">
               <input
                 name="money"
                 type="number"

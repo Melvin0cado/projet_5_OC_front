@@ -1,28 +1,32 @@
-.bold{
-  font-weight: 700;
+.bold {
+  font-weight: 700 !important;
 }
 
-.bold-ligth{
-  font-weight: 600;
+.bold-ligth {
+  font-weight: 600 !important;
 }
 
-.text-dark-blue2{
+.text-dark-blue {
+  color: $dark-blue;
+}
+
+.text-dark-blue2 {
   color: $dark-blue2;
 }
 
-.text-dark-blue3{
+.text-dark-blue3 {
   color: $dark-blue3;
 }
 
-.text-center{
+.text-center {
   text-align: center;
 }
 
-.title-size{
-  font-size: 2rem;
+.title-size {
+  font-size: 2vw;
 }
 
-.sub-title{
+.sub-title {
   font-size: 0.85rem;
   color: $gray;
 }

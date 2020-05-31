@@ -65,20 +65,20 @@ class RegistrationForm extends Component {
     const { disabledBtn } = this.state
     return (
       <div className="container row">
-        <form className="col s12">
-          <span className="title-size col s12 bold-ligth text-dark-blue3">
+        <form className="col m12 l12">
+          <span className="title-size col m12  l12 bold-ligth text-dark-blue3">
             Inscription
           </span>
 
-          <div className="input-field col s12">
+          <div className="input-field col m12 l12">
             <input name="name" type="text" onChange={this.handleChange} />
             <label htmlFor="name">Nom de compte</label>
           </div>
-          <div className="input-field col s12">
+          <div className="input-field col m12 l12">
             <input name="email" type="email" onChange={this.handleChange} />
             <label htmlFor="email">Email</label>
           </div>
-          <div className="input-field col s12">
+          <div className="input-field col m12 l12">
             <input
               name="password"
               type="password"
@@ -86,7 +86,7 @@ class RegistrationForm extends Component {
             />
             <label htmlFor="password">Mot de passe</label>
           </div>
-          <div className="input-field col s12">
+          <div className="input-field col m12 l12">
             <input
               name="password2"
               type="password"

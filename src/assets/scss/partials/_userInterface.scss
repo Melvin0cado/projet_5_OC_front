@@ -28,6 +28,7 @@
   padding-top: 15px;
   padding-bottom: 15px;
   font-weight: 700;
+  text-align: center;
 
   &:hover {
     color: yellow;
@@ -60,6 +61,10 @@
       min-width: 150px;
       padding: 10px;
 
+      @include response-to(tablet){
+        padding: 5px;
+      }
+
       & i {
         cursor: pointer;
 
@@ -87,6 +92,7 @@
 
   &:hover {
     background-color: $light-blue;
+    opacity: 0.9;
   }
 }
 
@@ -94,8 +100,12 @@
   font-weight: 900;
   color: $dark-blue3;
   font-size: 35px !important;
+
+  @include response-to(tablet){
+    font-size: 25px !important;
+  }
 }
 
 .mainLogo {
-  width: 3em;
+  width: 4vw;
 }

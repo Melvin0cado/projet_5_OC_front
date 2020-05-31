@@ -5,29 +5,21 @@ import React, { Component } from 'react'
 class CustomChart extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      width: 200,
-    }
+    this.state = {}
   }
 
   componentDidMount() {
-    const { budgetCard } = this.props
-    const { id, ceil, currentMoney } = budgetCard
-    const { width } = this.state
+    const { budgetCard, cardId } = this.props
+    const { ceil, currentMoney } = budgetCard
 
-    const ctx = document.getElementById(`budgetCard${id}`)
-
-    ctx.style.height = `${width}px`
-    ctx.style.width = `${width}px`
-    ctx.style.maxHeight = `${width}px`
-    ctx.style.maxWidth = `${width}px`
+    const ctx = document.getElementById(`budgetCard${cardId}`)
 
     const labels = ['Progression', 'Reste']
     const data = [currentMoney, ceil - currentMoney]
     const backgroundColor = ['#00ff4c', '#225d9b']
     this.setState({ labels, data, backgroundColor })
 
-    const percentage = document.getElementById(`percentage${id}`)
+    const percentage = document.getElementById(`percentage${cardId}`)
     percentage.style.textAlign = 'center'
     new Chart(ctx, {
       type: 'doughnut',
@@ -44,7 +36,6 @@ class CustomChart extends Component {
         ],
       },
       options: {
-        responsive: true,
         cutoutPercentage: 75,
         tooltips: {
           callbacks: {
@@ -66,18 +57,18 @@ class CustomChart extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { budgetCard } = this.props
-    const { id, ceil, currentMoney } = budgetCard
+    const { budgetCard, cardId } = this.props
+    const { ceil, currentMoney } = budgetCard
 
     if (prevProps.budgetCard !== budgetCard) {
-      const ctx = document.getElementById(`budgetCard${id}`)
+      const ctx = document.getElementById(`budgetCard${cardId}`)
 
       const labels = ['Progression', 'Reste']
       const data = [currentMoney, ceil - currentMoney]
       const backgroundColor = ['#00ff4c', '#225d9b']
       this.setState({ labels, data, backgroundColor })
 
-      const percentage = document.getElementById(`percentage${id}`)
+      const percentage = document.getElementById(`percentage${cardId}`)
       percentage.style.textAlign = 'center'
       new Chart(ctx, {
         type: 'doughnut',
@@ -128,8 +119,8 @@ class CustomChart extends Component {
   }
 
   render() {
-    const { budgetCard } = this.props
-    const { id, currentMoney, ceil } = budgetCard
+    const { budgetCard, cardId } = this.props
+    const { currentMoney, ceil } = budgetCard
     const { data, labels, backgroundColor } = this.state
 
     const percent = Math.round((currentMoney / ceil) * 100)
@@ -137,10 +128,12 @@ class CustomChart extends Component {
     return (
       <>
         <div className="chart-container">
-          <div id={`percentage${id}`} className="percentage title-size">
+          <div id={`percentage${cardId}`} className="percentage title-size">
             {percent}%
           </div>
-          <canvas id={`budgetCard${id}`}></canvas>
+          <div className="graphic-container">
+            <canvas id={`budgetCard${cardId}`}></canvas>
+          </div>
         </div>
         <div className=" flex flex-column">
           {labels !== undefined &&
@@ -166,6 +159,7 @@ CustomChart.propTypes = {
   id: PropTypes.number,
   ceil: PropTypes.number,
   currentMoney: PropTypes.number,
+  cardId: PropTypes.string,
 }
 
 export default CustomChart
